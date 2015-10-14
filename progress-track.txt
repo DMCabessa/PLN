@@ -1,0 +1,17 @@
+# Step 1: Rename <BODY> to <CONTENT>
+# Step 2: code to print all bodies
+>>> from bs4 import BeautifulSoup,SoupStrainer
+>>> f = open('file.sgm')
+>>> data = f.read()
+>>> soup = BeautifulSoup(data)
+>>> contents = soup.findAll('content')
+>>> for content in contents
+>>> 	print content.text
+
+# To get reuters lewissplit attr
+>>> reuters = soup.findAll('reuters')
+>>> reuters[0]['lewissplit']
+
+# To get topics value
+>>> reuters = soup.findAll('reuters')
+>>> reuters[0].find('topics').text
