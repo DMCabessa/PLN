@@ -15,7 +15,8 @@ categories = {
 trainList = []
 text = ""
 testList = []
-for i in range(0,1):
+filterlist = ['is','said','are','be','reuter','was','were','say','has','had','have']
+for i in range(0,22):
     filename = "../documents/reut2-0" + ("0" if i < 10 else "") + str(i) + ".sgm"
     f = open(filename)
     data = f.read()
@@ -36,5 +37,11 @@ for i in range(0,1):
                         categories[d.text] += reuter.find('content').text
                 trainList.append(reuter.find('content').text)
                 text = text + reuter.find('content').text
-                print "a" + reuter.find('content').text + "\n"
-print trainList
+                #print "a" + reuter.find('content').text + "\n"
+#print trainList
+
+tokens = nltk.word_tokenize(text.lower())
+filtered = filter(lambda x: not (x in filterlist),tokens)
+taggedList = nltk.pos_tag(filtered)
+fdist = nltk.FreqDist(word+"/"+tag for (word,tag) in taggedList if tag[:2] == 'VB' or tag[:2] == 'NN' or tag[:2] == 'JJ')
+fdist.most_common(500)

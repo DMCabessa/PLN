@@ -15,3 +15,11 @@
 # To get topics value
 >>> reuters = soup.findAll('reuters')
 >>> reuters[0].find('topics').text
+
+# To find frequency distribution
+>>> tks = nltk.word_tokenize(text)
+>>> fdist = FreqDist(tks)
+>>> fdist.most_common(50)
+
+# To classify text
+>>> nltk.pos_tag(list_of_tokens)
