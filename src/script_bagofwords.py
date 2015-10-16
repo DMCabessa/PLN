@@ -24,7 +24,6 @@ for i in range(0,1):
     for reuter in reuters:
 	   if reuter['lewissplit'] == "train" or reuter['lewissplit'] == "TRAIN":
             topic = reuter.find('topics')
-            print topic
             ds = topic.findAll('d')
             useText = False
             for d in ds:
