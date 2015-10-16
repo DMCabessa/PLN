@@ -16,14 +16,15 @@ trainList = []
 text = ""
 testList = []
 for i in range(0,1):
-    filename = "reut2-0" + ("0" if i < 10 else "") + str(i) + ".sgm"
+    filename = "../documents/reut2-0" + ("0" if i < 10 else "") + str(i) + ".sgm"
     f = open(filename)
     data = f.read()
-    soup = BeautifulSoup(data)
+    soup = BeautifulSoup(data, "html.parser")
     reuters = soup.findAll('reuters')
     for reuter in reuters:
-	if reuter['lewissplit'] == "train" or reuter['lewissplit'] == "TRAIN":
+	   if reuter['lewissplit'] == "train" or reuter['lewissplit'] == "TRAIN":
             topic = reuter.find('topics')
+            print topic
             ds = topic.findAll('d')
             useText = False
             for d in ds:
@@ -36,5 +37,5 @@ for i in range(0,1):
                         categories[d.text] += reuter.find('content').text
                 trainList.append(reuter.find('content').text)
                 text = text + reuter.find('content').text
-                #print reuter.find('content').text + "\n"
-#print trainList
+                print "a" + reuter.find('content').text + "\n"
+print trainList
