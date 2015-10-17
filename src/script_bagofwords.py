@@ -1,21 +1,18 @@
 from bs4 import BeautifulSoup,SoupStrainer
 import nltk
-categories = {
-    'earn': "", 
-    'acquisitions': "",
-    'money-fx': "",
-    'grain': "", 
-    'crude': "",
-    'trade': "", 
-    'interest': "",
-    'ship': "",
-    'wheat': "",
-    'corn': ""
-    }
-trainList = []
-text = ""
-testList = []
-filterlist = ['is','said','are','be','reuter','was','were','say','has','had','have']
+relevantTopics = ['earn', 'acq', 'money-fx', 'grain', 'crude', 'trade', 'interest', 'ship', 'wheat', 'corn']
+nDocuments = { 'total': 0.0 }
+megaDocuments = {}
+aPrioriProbabilities = {}
+for topic in relevantTopics:
+    nDocuments[topic] = 0
+    megaDocuments[topic] = ''
+
+#allTopics = []
+#allContents_List = []
+allContents = ""
+
+irrelevantWords = ['is','said','are','be','reuter','was','were','say','has','had','have']
 for i in range(0,22):
     filename = "../documents/reut2-0" + ("0" if i < 10 else "") + str(i) + ".sgm"
     f = open(filename)
@@ -24,24 +21,43 @@ for i in range(0,22):
     reuters = soup.findAll('reuters')
     for reuter in reuters:
 	   if reuter['lewissplit'] == "train" or reuter['lewissplit'] == "TRAIN":
-            topic = reuter.find('topics')
-            ds = topic.findAll('d')
-            useText = False
-            for d in ds:
-                if d.text in categories.keys():
-                    useText = True
-                    break
-            if useText and reuter.find('content') != None:
+            topics = reuter.find('topics')
+            ds = topics.findAll('d')
+#            for d in ds:
+#               if not(d.text in allTopics):
+#                    allTopics.append(d.text)
+            # Keep only the relevant topics
+            ds = filter(lambda d: d.text in relevantTopics, ds)
+            # Check if the document belongs to any of the relevant topics
+            if len(ds) > 0:
+                nDocuments['total'] += 1
+                # Increase the document count for every relevant topic counter
                 for d in ds:
-                    if d.text in categories.keys():
-                        categories[d.text] += reuter.find('content').text
-                trainList.append(reuter.find('content').text)
-                text = text + reuter.find('content').text
-                #print "a" + reuter.find('content').text + "\n"
-#print trainList
+                    nDocuments[d.text] += 1
+                if reuter.find('content') != None:
+                    for d in ds:
+                        megaDocuments[d.text] += reuter.find('content').text
+                    #allContents_List.append(reuter.find('content').text)
+                    allContents = allContents + reuter.find('content').text
+#print sorted(allTopics)
 
-tokens = nltk.word_tokenize(text.lower())
-filtered = filter(lambda x: not (x in filterlist),tokens)
+# Compute the class a priori probabilities for all classes
+for topic in relevantTopics:
+    aPrioriProbabilities[topic] = nDocuments[topic]/nDocuments['total']
+print 'A Priori Probabilities:\n' + str(aPrioriProbabilities) + '\n'
+
+# Separate allContents into tokens
+tokens = nltk.word_tokenize(allContents.lower())
+# Change the encoding from unicode to ascii
+tokens = [t.encode('ascii') for t in tokens]
+# Remove irrelevant words
+filtered = filter(lambda x: not (x in irrelevantWords),tokens)
+# Classify the tokens grammatically
 taggedList = nltk.pos_tag(filtered)
-fdist = nltk.FreqDist(word+"/"+tag for (word,tag) in taggedList if tag[:2] == 'VB' or tag[:2] == 'NN' or tag[:2] == 'JJ')
-fdist.most_common(500)
+# Select only the verbs, nouns and adjectives
+fdist = nltk.FreqDist((word+"/"+tag) for (word,tag) in taggedList if (tag[:2] == 'VB' or tag[:2] == 'NN' or tag[:2] == 'JJ'))
+# Print the 500 most frequent words in fdist
+print '500 most common words:\n' + str(fdist.most_common(500)) + '\n'
+
+
+
