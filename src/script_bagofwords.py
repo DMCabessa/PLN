@@ -12,7 +12,7 @@ for topic in relevantTopics:
 #allContents_List = []
 allContents = ""
 
-irrelevantWords = ['is','said','are','be','reuter','was','were','say','has','had','have']
+irrelevantWords = ['is','said','are','be','reuter','was','were','say','has','had','have','did','do','does','go','goes','gone','i','been']
 for i in range(0,22):
     filename = "../documents/reut2-0" + ("0" if i < 10 else "") + str(i) + ".sgm"
     f = open(filename)
