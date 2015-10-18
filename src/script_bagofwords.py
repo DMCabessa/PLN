@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup,SoupStrainer
 import nltk
+
 relevantTopics = ['earn', 'acq', 'money-fx', 'grain', 'crude', 'trade', 'interest', 'ship', 'wheat', 'corn']
 nDocuments = { 'total': 0.0 }
 megaDocuments = {}
@@ -55,9 +56,10 @@ filtered = filter(lambda x: not (x in irrelevantWords),tokens)
 # Classify the tokens grammatically
 taggedList = nltk.pos_tag(filtered)
 # Select only the verbs, nouns and adjectives
-fdist = nltk.FreqDist((word+"/"+tag) for (word,tag) in taggedList if (tag[:2] == 'VB' or tag[:2] == 'NN' or tag[:2] == 'JJ'))
+fdist = nltk.FreqDist((word+'/'+tag) for (word,tag) in taggedList if (tag == 'VB' or tag == 'NN' or tag == 'JJ'))
 # Print the 500 most frequent words in fdist
 print '500 most common words:\n' + str(fdist.most_common(500)) + '\n'
 
-
-
+# Build the vocabulary
+vocabulary = [word[0:len(word)-3] for (word,_) in fdist.most_common(500)]
+print 'The vocabulary:\n' + str(vocabulary) + '\n'
