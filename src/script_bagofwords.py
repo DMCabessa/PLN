@@ -8,17 +8,6 @@ RELEVANT_TOPICS = ['earn', 'acq', 'money-fx', 'grain', 'crude', 'trade', 'intere
 IRRELEVANT_WORDS = ['is','said','are','be','reuter','was','were','say','has','had','have','did','do','does',
                      'go','goes','gone','i','been']
 
-num_documents = { 'total': 0.0 }
-mega_documents = {}
-a_priori_probabilities = {}
-for topic in RELEVANT_TOPICS:
-    num_documents[topic] = 0
-    mega_documents[topic] = ''
-all_contents = ""
-vocabulary = set()
-
-raw_documents = []
-
 def document_bow(document_text):
     # Select only the words that belong to the vocabulary
     tokens = nltk.word_tokenize(document_text.lower())
@@ -66,32 +55,61 @@ def classify_document(document):
     #        + '\n' + str(a_posteriori_probabilities))
     return topic
 
+def readFiles():
+    num_documents = { 'total': 0.0 }
+    mega_documents = {}
+    for topic in RELEVANT_TOPICS:
+        num_documents[topic] = 0
+        mega_documents[topic] = ''
+    all_contents = ""
+    raw_training_documents = []
+    raw_test_documents = []
 
-for i in range(0,22):
-    filename = "../documents/reut2-0" + ("0" if i < 10 else "") + str(i) + ".sgm"
-    f = open(filename)
-    data = f.read()
-    soup = BeautifulSoup(data, "html.parser")
-    reuters = soup.findAll('reuters')
-    for reuter in reuters:
-       if reuter['lewissplit'] == "train" or reuter['lewissplit'] == "TRAIN":
-            topics = reuter.find('topics')
-            ds = topics.findAll('d')
-            # Keep only the relevant topics
-            ds = filter(lambda d: d.text in RELEVANT_TOPICS, ds)
-            # Check if the document belongs to any of the relevant topics
-            if len(ds) > 0:
+    for i in range(0,22):
+        filename = "../documents/reut2-0" + ("0" if i < 10 else "") + str(i) + ".sgm"
+        f = open(filename)
+        data = f.read()
+        soup = BeautifulSoup(data, "html.parser")
+        reuters = soup.findAll('reuters')
+        for reuter in reuters:
+            if reuter['lewissplit'] == 'TRAIN':
+                topics = reuter.find('topics')
+                ds = topics.findAll('d')
+                # Keep only the relevant topics
+                ds = filter(lambda d: d.text in RELEVANT_TOPICS, ds)
+                # Check if the document belongs to any of the relevant topics
+                if len(ds) > 0:
 
-                raw_documents.append(reuter)
+                    raw_training_documents.append(reuter)
 
-                num_documents['total'] += 1
-                # Increase the document count for every relevant topic counter
-                for d in ds:
-                    num_documents[d.text] += 1
-                if reuter.find('content') != None:
+                    num_documents['total'] += 1
+                    # Increase the document count for every relevant topic counter
                     for d in ds:
-                        mega_documents[d.text] += reuter.find('content').text
-                    all_contents = all_contents + reuter.find('content').text
+                        num_documents[d.text] += 1
+                    if reuter.find('content') != None:
+                        for d in ds:
+                            mega_documents[d.text] += reuter.find('content').text
+                        all_contents = all_contents + reuter.find('content').text
+            if reuter['lewissplit'] == 'TEST':
+                    raw_test_documents.append(reuter)
+
+    # Create a dictionary for the return values
+    return_values = {'num_documents': num_documents, 'mega_documents': mega_documents,
+                        'all_contents': all_contents, 'raw_training_documents': raw_training_documents,
+                        'raw_test_documents': raw_test_documents}
+    return return_values
+
+
+data = readFiles()
+
+raw_training_documents = data['raw_training_documents']
+raw_test_documents = data['raw_test_documents']
+num_documents = data['num_documents']
+mega_documents = data['mega_documents']
+all_contents = data['all_contents']
+
+vocabulary = set()
+a_priori_probabilities = {}
 
 # Compute the class a priori probabilities for all classes
 for topic in RELEVANT_TOPICS:
@@ -123,7 +141,10 @@ for topic in mega_documents:
     print topic.upper() + ':\n' + str(mega_documents[topic]) + '\n'
 
 counter = 0.0
-for raw_doc in raw_documents:
+
+print len(raw_test_documents)
+
+for raw_doc in raw_test_documents:
     classification = classify_document(raw_doc)
     if not(classification in map(lambda d: d.text.encode('ascii'), raw_doc.find('topics').findAll('d'))):
         counter += 1
