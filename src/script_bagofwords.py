@@ -25,15 +25,15 @@ def build_bow_freq_dist(document_text):
         BoW_freq_dist[word] = freq_dist[word]
     return BoW_freq_dist
 
-def estimate_word_prob(word, topic):
-    numerator = (mega_documents[topic][word]+1) if (word in mega_documents[topic]) else 1
+def estimate_word_prob(word, topic, freq_dist):
+    numerator = (freq_dist[word]+1) if (word in freq_dist) else 1
     denominador = len(vocabulary)
-    for value in mega_documents[topic].values():
+    for value in freq_dist.values():
         denominador += value
     return numerator/float(denominador)
 
 # Receives a document as the data of a <REUTER> tag
-def classify_document(document):
+def classify_document(document, mega_documents):
     # Build BoWs for the title and the content of the document
     doc_title = document.find('title').text if document.find('title') != None else ""
     doc_text = document.find('content').text if document.find('content') != None else ""
@@ -41,26 +41,26 @@ def classify_document(document):
     doc_text_bow = document_bow(doc_text)
     # Create a single BoW for the document, giving weight 2 for the words in the title
     doc_bow = doc_title_bow*TITLE_WEIGHT + doc_text_bow
-    # Compute the a posteriori probabilities
-    a_posteriori_probabilities = []
+    topic_probability_list = []
     for topic in mega_documents:
-        summation = 0
-        for word in doc_bow:
-            summation += log(estimate_word_prob(word, topic))
-        a_posteriori_probabilities.append((topic, a_priori_probabilities[topic] + summation))
-    # Find the topic with the maximum a posteriori probability
-    (topic, _) = max(a_posteriori_probabilities, key=(lambda (_,prob): prob))
-    #if not(topic in map(lambda d: d.text.encode('ascii'), document.find('topics').findAll('d'))):
-    #    print ('\n'+topic.upper()+'  '+str(map(lambda d: d.text.encode('ascii'),document.find('topics').findAll('d'))) 
-    #        + '\n' + str(a_posteriori_probabilities))
-    return topic
+        # Compute the a posteriori probabilities
+        a_posteriori_probabilities = [0, 0]
+        for classifier in (0,1):
+            summation = 0
+            for word in doc_bow:
+                summation += log(estimate_word_prob(word, topic, mega_documents[topic][classifier]))
+            a_priori_probability = a_priori_probabilities[topic] if classifier else (1 - a_priori_probabilities[topic])   
+            a_posteriori_probabilities[classifier] = log(a_priori_probability) + summation
+        topic_probability_list.append( (topic, a_posteriori_probabilities[1] > a_posteriori_probabilities[0]) )
+    
+    return map(lambda (topic,_): topic, filter(lambda (_,prob): prob, topic_probability_list))
 
 def readFiles():
     num_documents = { 'total': 0.0 }
     mega_documents = {}
     for topic in RELEVANT_TOPICS:
         num_documents[topic] = 0
-        mega_documents[topic] = ''
+        mega_documents[topic] = ('','')
     all_contents = ""
     raw_training_documents = []
     raw_test_documents = []
@@ -87,8 +87,11 @@ def readFiles():
                     for d in ds:
                         num_documents[d.text] += 1
                     if reuter.find('content') != None:
-                        for d in ds:
-                            mega_documents[d.text] += reuter.find('content').text
+                        for rt in RELEVANT_TOPICS:
+                            if rt in map(lambda d: d.text, ds):
+                                mega_documents[rt] = (mega_documents[rt][0], mega_documents[rt][1] + reuter.find('content').text)
+                            else:
+                                mega_documents[rt] = (mega_documents[rt][0] + reuter.find('content').text, mega_documents[rt][1])
                         all_contents = all_contents + reuter.find('content').text
             if reuter['lewissplit'] == 'TEST':
                     raw_test_documents.append(reuter)
@@ -125,7 +128,7 @@ filtered = filter(lambda x: not (x in IRRELEVANT_WORDS),tokens)
 # Classify the tokens grammatically
 taggedList = nltk.pos_tag(filtered)
 # Select only the verbs, nouns and adjectives
-fdist = nltk.FreqDist((word+'/'+tag) for (word,tag) in taggedList if (tag == 'VB' or tag == 'NN' or tag == 'JJ'))
+fdist = nltk.FreqDist((word+'/'+tag) for (word,tag) in taggedList if (tag in ['VB','NN','JJ']))
 # Print the 500 most frequent words in fdist
 print '500 most common words:\n' + str(fdist.most_common(500)) + '\n'
 
@@ -135,19 +138,17 @@ print 'The vocabulary:\n' + str(vocabulary) + '\n'
 
 # Built the bag of words for each class mega document
 for topic in mega_documents:
-    mega_documents[topic] = build_bow_freq_dist(mega_documents[topic])
-print "The BoW mega documents:"
-for topic in mega_documents:
-    print topic.upper() + ':\n' + str(mega_documents[topic]) + '\n'
+    mega_documents[topic] = (build_bow_freq_dist(mega_documents[topic][0]) , build_bow_freq_dist(mega_documents[topic][1]))
+#print "The BoW mega documents:"
+#for topic in mega_documents:
+#    print topic.upper() + ':\n' + str(mega_documents[topic][]) + '\n'
 
 counter = 0.0
 
-print len(raw_test_documents)
-
-for raw_doc in raw_test_documents:
-    classification = classify_document(raw_doc)
-    if not(classification in map(lambda d: d.text.encode('ascii'), raw_doc.find('topics').findAll('d'))):
-        counter += 1
-    #print ("Classified as " + classification + ", topics are: " + 
-    #    str(map(lambda d: d.text.encode('ascii'), raw_doc.find('topics').findAll('d'))))
-print '\n' + str(100*counter/num_documents['total']) + "%\n"
+for raw_doc in raw_training_documents:
+    classification = classify_document(raw_doc, mega_documents)
+    #if not(classification == map(lambda d: d.text.encode('ascii'), raw_doc.find('topics').findAll('d'))):
+    #    counter += 1
+    print ("Classified as " + str(classification) + ", real topics are: " + 
+        str(map(lambda d: d.text.encode('ascii'), raw_doc.find('topics').findAll('d'))))
+#print '\n' + str(100*counter/num_documents['total']) + "%\n"
