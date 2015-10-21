@@ -62,10 +62,3 @@ def tests(raw_documents, mega_documents, a_priori_probabilities, vocabulary):
         accuracy = (counters['tp'] + counters['tn']) / sum(counters.values())
         f1 = 2 * precision * recall / (precision + recall)
         print topic + ":\n\tPrecision: " + str(precision) + "\n\tRecall: " + str(recall) + "\n\tAccuracy: " + str(accuracy) + "\n\tF1: " + str(f1) + "\n"
-
-        #if str(classification) == str(map(lambda d: d.text.encode('ascii'), raw_doc.find('topics').findAll('d'))):
-        #if not(classification == map(lambda d: d.text.encode('ascii'), raw_doc.find('topics').findAll('d'))):
-        #    counter += 1
-        #print ("Classified as " + str(classification) + ", real topics are: " + 
-        #    str(map(lambda d: d.text.encode('ascii'), raw_doc.find('topics').findAll('d'))))
-    #print '\n' + str(100*counter/num_documents['total']) + "%\n"
