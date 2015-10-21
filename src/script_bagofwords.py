@@ -143,12 +143,21 @@ for topic in mega_documents:
 #for topic in mega_documents:
 #    print topic.upper() + ':\n' + str(mega_documents[topic][]) + '\n'
 
-counter = 0.0
+# counter = 0.0
+hits = 0
+misses = 0
 
+print 'Begin test phase...\n'
 for raw_doc in raw_training_documents:
     classification = classify_document(raw_doc, mega_documents)
+    if str(classification) == str(map(lambda d: d.text.encode('ascii'), raw_doc.find('topics').findAll('d'))):
+        hits += 1
+    else:
+        misses += 1
+print 'Hits: ' + hits
+print 'Misses: ' + misses
     #if not(classification == map(lambda d: d.text.encode('ascii'), raw_doc.find('topics').findAll('d'))):
     #    counter += 1
-    print ("Classified as " + str(classification) + ", real topics are: " + 
-        str(map(lambda d: d.text.encode('ascii'), raw_doc.find('topics').findAll('d'))))
+    #print ("Classified as " + str(classification) + ", real topics are: " + 
+    #    str(map(lambda d: d.text.encode('ascii'), raw_doc.find('topics').findAll('d'))))
 #print '\n' + str(100*counter/num_documents['total']) + "%\n"
