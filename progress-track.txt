@@ -23,3 +23,6 @@
 
 # To classify text
 >>> nltk.pos_tag(list_of_tokens)
+
+# To classify text
+>>> classifier.tests(data['raw_training_documents'],data['mega_documents'],data['a_priori_probabilities'],data['vocabulary'])

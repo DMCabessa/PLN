@@ -3,7 +3,7 @@ import nltk
 
 # Constants
 TITLE_WEIGHT = 2
-MAX_INTERSECTION = 5
+MAX_INTERSECTION = 3
 RELEVANT_TOPICS = ['earn', 'acq', 'money-fx', 'grain', 'crude', 'trade', 'interest', 'ship', 'wheat', 'corn']
 IRRELEVANT_WORDS = ['is','said','are','be','reuter','was','were','say','has','had','have','did','do','does',
                      'go','goes','gone','i','been','\x03shr','>','<', '\x03the']
@@ -67,6 +67,14 @@ def readFiles():
             if reuter['lewissplit'] == 'TEST':
                     raw_test_documents.append(reuter)
 
+    for topic in RELEVANT_TOPICS:
+        temp = mega_documents[topic][1]
+        (negative, positive) = mega_documents[topic]
+        while len(negative) > len(positive) + len(temp):
+            positive += temp
+        mega_documents[topic] = (negative, positive)
+
+
     # Create a dictionary for the return values
     return_values = {'num_documents': num_documents, 'mega_documents': mega_documents,
                         'all_contents': all_contents, 'raw_training_documents': raw_training_documents,
@@ -118,14 +126,14 @@ def create_vocabulary():
     #        aux_vocabulary.append(word)
     for fd in freq_dists:
         #vocabulary = vocabulary.union(set([word[0:len(word)-3] for (word,_) in freq_dists[fd].most_common(500)]))
-        general_vocabulary.append( (fd, set([word[0:len(word)-3] for (word,_) in freq_dists[fd].most_common(150)]), freq_dists[fd].most_common(150)) )
+        general_vocabulary.append( (fd, set([word[0:len(word)-3] for (word,_) in freq_dists[fd].most_common(500)])) )
 
 
-    for (topic, topic_set, frequency) in general_vocabulary:
+    for (topic, topic_set) in general_vocabulary:
         for word in topic_set:
-            contain = filter(lambda (_,s,_): word in s, general_vocabulary)
+            contain = filter(lambda (_,s): word in s, general_vocabulary)
             if len(contain) > MAX_INTERSECTION:
-                print "<" + word + ">, " + str(map(lambda (t,_): t+": "+frequency[word], contain)) + "  size: " + str(len(contain)) + "\n" 
+                print "<" + word + ">, " + str(map(lambda (t,_): t, contain)) + "  size: " + str(len(contain)) + "\n" 
             else:
                 vocabulary = vocabulary.union(set([word]))
 
