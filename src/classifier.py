@@ -13,10 +13,12 @@ def classify_document(document, mega_documents, a_priori_probabilities, vocabula
     # Build BoWs for the title and the content of the document
     doc_title = document.find('title').text if document.find('title') != None else ""
     doc_text = document.find('content').text if document.find('content') != None else ""
+    #doc_text_fst_sentences = " ".join(map(lambda paragraph: paragraph.split('. ')[0], doc_text.split("\n    ")))
     doc_title_bow = document_bow(doc_title, vocabulary)
     doc_text_bow = document_bow(doc_text, vocabulary)
+    #doc_fst_sentences_bow = document_bow(doc_text_fst_sentences, vocabulary)
     # Create a single BoW for the document, giving weight 2 for the words in the title
-    doc_bow = doc_title_bow*TITLE_WEIGHT + doc_text_bow
+    doc_bow = doc_title_bow*TITLE_WEIGHT + doc_text_bow #+ doc_fst_sentences_bow
     topic_probability_list = []
     for topic in mega_documents:
         # Compute the a posteriori probabilities
@@ -31,13 +33,13 @@ def classify_document(document, mega_documents, a_priori_probabilities, vocabula
     
     return map(lambda (topic,_): topic, filter(lambda (_,prob): prob, topic_probability_list))
 
-def tests(raw_documents, mega_documents, a_priori_probabilities, vocabulary):
+def evaluate_algorithm2(raw_documents, mega_documents, a_priori_probabilities, vocabulary):
     # Build confusion matrix
     confusion_matrix = {}
     for topic in RELEVANT_TOPICS:
         confusion_matrix[topic] = {'tp':0.0, 'fp':0.0, 'tn':0.0, 'fn':0.0}
 
-    print 'Beginning test phase...\n'
+    print 'Computing metrics...\n'
     for raw_doc in raw_documents:
         classification = classify_document(raw_doc, mega_documents, a_priori_probabilities, vocabulary)
         for guessed_topic in classification:
@@ -53,12 +55,18 @@ def tests(raw_documents, mega_documents, a_priori_probabilities, vocabulary):
                 confusion_matrix[topic]['tn'] += 1
 
     print confusion_matrix
+    
     # Compute evaluation metrics [precision, recall, accuracy, F1]
-
+    f1_sum = 0.0
     for topic in confusion_matrix:
         counters = confusion_matrix[topic]
         precision = counters['tp'] / (counters['tp'] + counters['fp'])
         recall = counters['tp'] / (counters['tp'] + counters['fn'])
         accuracy = (counters['tp'] + counters['tn']) / sum(counters.values())
         f1 = 2 * precision * recall / (precision + recall)
+        f1_sum += f1
         print topic + ":\n\tPrecision: " + str(precision) + "\n\tRecall: " + str(recall) + "\n\tAccuracy: " + str(accuracy) + "\n\tF1: " + str(f1) + "\n"
+    print '\naverage F1: ' + str(f1_sum/len(RELEVANT_TOPICS))
+
+def evaluate_algorithm(data):
+    evaluate_algorithm2(data['raw_test_documents'], data['mega_documents'], data['a_priori_probabilities'], data['vocabulary'])
