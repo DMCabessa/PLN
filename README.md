@@ -16,6 +16,6 @@
   * >>> data = file_reader.create_vocabulary()
 4. Então execute a rotina de classificação do texto usando os parâmetros retornados
   * >>> import classifier
-  * >>> classifier.tests(data['raw_test_documents'],data['mega_documents'],data['a_priori_probabilities'],data['vocabulary'])
+  * >>> classifier.evaluate_algorithm(data)
 
 Os resultados de precisão, recall, acurácia e F1 devem ser imprimidos no console.
