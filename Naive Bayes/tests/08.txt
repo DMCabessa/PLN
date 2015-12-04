@@ -1,0 +1,61 @@
+# 150 most common of each class, minus ones that appear in more than 5 topics [training-set]
+
+earn:
+	Precision: 0.986856928276
+	Recall: 0.913451511992
+	Accuracy: 0.956267323683
+	F1: 0.948736462094
+
+wheat:
+	Precision: 0.392857142857
+	Recall: 0.985849056604
+	Accuracy: 0.949799815214
+	F1: 0.561827956989
+
+money-fx:
+	Precision: 0.584632516704
+	Recall: 0.974025974026
+	Accuracy: 0.940406529104
+	F1: 0.730688935282
+
+corn:
+	Precision: 0.338461538462
+	Recall: 0.967032967033
+	Accuracy: 0.946104096089
+	F1: 0.501424501425
+
+trade:
+	Precision: 0.449748743719
+	Recall: 0.970189701897
+	Accuracy: 0.930859254697
+	F1: 0.614592274678
+
+acq:
+	Precision: 0.825908858167
+	Recall: 0.977575757576
+	Accuracy: 0.941946412073
+	F1: 0.895364973633
+
+grain:
+	Precision: 0.701666666667
+	Recall: 0.970046082949
+	Accuracy: 0.970434246997
+	F1: 0.814313346228
+
+interest:
+	Precision: 0.433734939759
+	Recall: 0.933717579251
+	Accuracy: 0.931321219587
+	F1: 0.592321755027
+
+crude:
+	Precision: 0.633730834753
+	Recall: 0.951406649616
+	Accuracy: 0.963966738528
+	F1: 0.760736196319
+
+ship:
+	Precision: 0.382113821138
+	Recall: 0.949494949495
+	Accuracy: 0.951647674777
+	F1: 0.544927536232

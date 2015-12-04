@@ -1,0 +1,61 @@
+# 50 most common of each class, intersection [training-set]
+
+earn:
+	Precision: 0.97913561848
+	Recall: 0.913451511992
+	Accuracy: 0.953033569449
+	F1: 0.945153749326
+
+wheat:
+	Precision: 0.367673179396
+	Recall: 0.97641509434
+	Accuracy: 0.944410224823
+	F1: 0.534193548387
+
+money-fx:
+	Precision: 0.520874751491
+	Recall: 0.972170686456
+	Accuracy: 0.923467816446
+	F1: 0.678317152104
+
+corn:
+	Precision: 0.327746741155
+	Recall: 0.967032967033
+	Accuracy: 0.943486295042
+	F1: 0.489568845619
+
+trade:
+	Precision: 0.458703939009
+	Recall: 0.978319783198
+	Accuracy: 0.93316907915
+	F1: 0.624567474048
+
+acq:
+	Precision: 0.826873385013
+	Recall: 0.969696969697
+	Accuracy: 0.940714505698
+	F1: 0.892608089261
+
+grain:
+	Precision: 0.660910518053
+	Recall: 0.970046082949
+	Accuracy: 0.964736680012
+	F1: 0.786181139122
+
+interest:
+	Precision: 0.448366013072
+	Recall: 0.988472622478
+	Accuracy: 0.934400985525
+	F1: 0.61690647482
+
+crude:
+	Precision: 0.650684931507
+	Recall: 0.971867007673
+	Accuracy: 0.966892516169
+	F1: 0.779487179487
+
+ship:
+	Precision: 0.277349768875
+	Recall: 0.909090909091
+	Accuracy: 0.925007699415
+	F1: 0.425029515939
