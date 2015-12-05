@@ -1,8 +1,9 @@
 from bs4 import BeautifulSoup
 from document import Document
-from term_data import Posting
+from posting import Posting
 import cPickle
 import nltk
+from inverted_index import InvertedIndex
 
 PATH = "../database/"
 
@@ -14,9 +15,10 @@ def deserialize(filename):
     f = open(PATH+filename, 'rb')
     return cPickle.load(f)
 
-def pre_process():
-    for i in range(0,22):
-        filename = "source-documents/reut2-0" + ("0" if i < 10 else "") + str(i) + ".sgm"
+def process_documents():
+    # The index must be changed from 1 t 22 after testing is done
+    for i in range(0,1):
+        filename = "../source-documents/reut2-0" + ("0" if i < 10 else "") + str(i) + ".sgm"
         f = open(filename)
         data = f.read()
         soup = BeautifulSoup(data, "html.parser")
@@ -28,7 +30,7 @@ def pre_process():
 def init_inverted_index():
     idx = 1
     doc_list = []
-    inverted_index = {}
+    inverted_index = InvertedIndex()
 
     while True:
         try:
@@ -39,8 +41,11 @@ def init_inverted_index():
             break
 
     total = len(doc_list)
+    inverted_index.n = total
+
     for document in doc_list:
-        tokens = nltk.word_tokenize(str(document))
+        lower_doc = str(document).lower()
+        tokens = nltk.word_tokenize(lower_doc)
         for pos in range(0,len(tokens)):
             tk = tokens[pos]
             if not tk in inverted_index.keys():
@@ -48,7 +53,7 @@ def init_inverted_index():
             
             term_data = inverted_index[tk]
             if not document.id in map(lambda p: p.doc_id, term_data):
-                term_data.append(Posting(document.id))
+                term_data.append(Posting(document.id, []))
 
             for posting in term_data:
                 if posting.doc_id == document.id:
@@ -57,3 +62,7 @@ def init_inverted_index():
         print "{0:.2f}% completed...".format(float(document.id)/total * 100)
 
     serialize(inverted_index,"inverted_index.idx")
+
+init_inverted_index()
+table = deserialize(PATH+'inverted_index.idx')
+print str(table['cocoa'][0])
