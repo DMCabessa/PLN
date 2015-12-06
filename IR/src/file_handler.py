@@ -17,7 +17,7 @@ def deserialize(filename):
 
 def process_documents():
     # The index must be changed from 1 t 22 after testing is done
-    for i in range(0,1):
+    for i in range(0,22):
         filename = "../source-documents/reut2-0" + ("0" if i < 10 else "") + str(i) + ".sgm"
         f = open(filename)
         data = f.read()
@@ -32,7 +32,7 @@ def init_inverted_index():
     doc_list = []
     inverted_index = InvertedIndex()
 
-    while True:
+    while idx <= 1000:
         try:
             document = deserialize(str(idx)+".dbf")
             doc_list.append(document)
