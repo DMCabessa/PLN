@@ -25,7 +25,7 @@ def process_documents():
         reuters = soup.findAll('reuters')
         for reuter in reuters:
             document = Document(reuter)
-            serialize(document, document.id+".dbf")
+            serialize(document, str(document.id)+".dbf")
 
 def init_inverted_index():
     idx = 1
@@ -49,11 +49,11 @@ def init_inverted_index():
         for pos in range(0,len(tokens)):
             tk = tokens[pos]
             if not tk in inverted_index.keys():
-                inverted_index[tk] = []
+                inverted_index[tk] = list()
             
             term_data = inverted_index[tk]
             if not document.id in map(lambda p: p.doc_id, term_data):
-                term_data.append(Posting(document.id, []))
+                term_data.append(Posting(document.id))
 
             for posting in term_data:
                 if posting.doc_id == document.id:
@@ -63,6 +63,3 @@ def init_inverted_index():
 
     serialize(inverted_index,"inverted_index.idx")
 
-init_inverted_index()
-table = deserialize(PATH+'inverted_index.idx')
-print str(table['cocoa'][0])
