@@ -4,6 +4,7 @@ from query import Query
 from math import log
 from copy import deepcopy
 from nltk import word_tokenize
+from inverted_index import InvertedIndex
 
 class IR:
     def __init__(self):
@@ -18,40 +19,109 @@ class IR:
             except IOError:
                 break
 
-    def term_tfs(self, term):
-        doc_tfs = list()
-        for posting in self.inverted_index[term]:
-            # Adds 0s for the tfs of documents which do not contain term
-            missing_docs = int(posting.doc_id) - len(doc_tfs)
-            doc_tfs.extend([0] * missing_docs)
-            # Compute the tf and add it
-            current_tf = 1 + log(len(posting.positions))
-            doc_tfs.append(current_tf)
-        # Adds 0s for the remaining documents which do not contain term
-        missing_docs = self.inverted_index.n - (len(doc_tfs) - 1)
-        doc_tfs.extend([0] * missing_docs)
+    def term_tfs(self, term, expanded_inv_idx, filtered_documents):
+        doc_tfs = {}
+        iterator = iter(filtered_documents)
+        if filtered_documents == []:
+            return doc_tfs
+
+        if term in expanded_inv_idx.keys():
+            inverted_index = expanded_inv_idx
+        else:
+            inverted_index = self.inverted_index
+
+        allowed_id = iterator.next()
+        doc_tfs[allowed_id] = 0
+        for posting in inverted_index[term]:
+            if posting.doc_id == allowed_id:
+                doc_tfs[allowed_id] = 1 + log(len(posting.positions))
+            elif posting.doc_id > allowed_id:
+                doc_tfs[allowed_id] = 0
+                try:
+                    allowed_id = iterator.next()
+                    doc_tfs[allowed_id] = 0
+                except StopIteration:
+                    break
+
+        for allowed_id in iterator:
+            doc_tfs[allowed_id] = 0
+
         return doc_tfs
 
-    def term_idf(self, term):
-        n_docs = len(self.inverted_index[term])
+
+    def term_idf(self, term, expanded_inv_idx):
+        if term in expanded_inv_idx.keys():
+            n_docs = len(expanded_inv_idx[term])
+        else:
+            n_docs = len(self.inverted_index[term])
         return log(self.inverted_index.n/float(n_docs))
 
-    def compute_scores(self, query):
-        dic_tfs = {}
-        dic_idfs = {}
-        expanded_inv_idx = expand_inverted_index(query)
-        for word in query.unquoted_words:
-            if word not in dic_tfs.keys():
-                dic_tfs[word] = term_tfs(word)
-                dic_idfs[word] = term_idf(word)
+    # TODO
+    def compute_scores(self, unquoted_words, expanded_inv_idx, filtered_documents):
+        terms = unquoted_words + expanded_inv_idx.keys()
+        tfs = {}
+        idfs = {}
+        # Compute all tfs and idfs
+        for term in terms:
+            tfs[term] = self.term_tfs(term, expanded_inv_idx, filtered_documents)
+            idfs[term] = term_idf(term, expanded_inv_idx)
+        # Compute the tf-idfs
+        tf_idf = deepcopy(tfs)
+        for term in terms:
+            for doc_id in filtered_documents:
+                tf_idf[term][doc_id] *= idfs[term]
+
         # TODO
+
+
+    def binary_search(self, quoted_sentences, negated_words, expanded_inv_idx, filtered_documents):
+        self.expand_inverted_index(quoted_sentences, expanded_inv_idx)
+        self.binary_merge(negated_words, expanded_inv_idx, filtered_documents)
+
+
+    def binary_merge(self, negated_words, expanded_inv_idx, filtered_documents):
+        term_lines = [[posting.doc_id for posting in expanded_inv_idx[term]] 
+            for term in expanded_inv_idx.keys()]
+        negated_term_lines = [[posting.doc_id for posting in self.inverted_index[term]] 
+            for term in negated_words]
+        # Find the documents that contain all the quoted sentences
+        answer = self.intersection(term_lines)
+        # For each negated term, remove from answer the documents that contain it
+        for negated_term_line in negated_term_lines:
+            negated_intersection = self.intersection([answer] + [negated_term_line])
+            answer = filter(lambda d: d not in negated_intersection, answer)
+
+        filtered_documents.extend(answer)
+
+
+    def intersection(self, term_lines):
+        term_lines = deepcopy(term_lines)
+        intersection = []
+        while min(term_lines, key=len) != []:
+            head_doc_ids = [term_line[0] for term_line in term_lines]
+            min_head_doc = min(head_doc_ids)
+            max_head_doc = max(head_doc_ids)
+
+            if min_head_doc == max_head_doc:
+                # Adds the document to the intersection list and advances all
+                # term_lines to the next documents
+                intersection.append(min_head_doc)
+                for term_line in term_lines:
+                    del term_line[0]
+            else:
+                # Remove the smallest doc_id from all term_line heads
+                for term_line in term_lines:
+                    if term_line[0] == min_head_doc:
+                        del term_line[0]
+        return intersection
+
 
     # Expands the inverted index table to contain the quoted sentences, each
     # considered as a single term
-    def expand_inverted_index(self, query):
-        expansion = {}
+    def expand_inverted_index(self, quoted_sentences, expansion):
         inv_idx = self.inverted_index
-        for sentence in query.quoted_sentences:
+        
+        for sentence in quoted_sentences:
             sentence = word_tokenize(sentence)
             # Create a new term representing the sentence and add it to the expansion
             new_term = "_".join(sentence)
@@ -59,47 +129,38 @@ class IR:
             # Get the doc_ids in the lines for each term in the sentence
             term_lines = [[posting.doc_id for posting in inv_idx[word]] for word in sentence]
 
-            doc_id = 1
-            while min(term_lines, key=len) != []:
-                head_doc_ids = [term_line[0] for term_line in term_lines]
-                min_fst_doc = min(head_doc_ids)
-                max_fst_doc = max(head_doc_ids)
+            intersection = self.intersection(term_lines)
+            for doc_id in intersection:
+                # Create a new Posting for the document
+                new_posting = Posting(doc_id)
+                # Get the document in lowercase
+                doc = word_tokenize(str(self.docs[doc_id]).lower())
+                # Find the occurances of the sentence's first word on the document
+                fst_word_occurances = list()
+                for posting in inv_idx[sentence[0]]:
+                    if posting.doc_id == doc_id:
+                        fst_word_occurances.extend(posting.positions)
+                        break
+                # Check if the occurances of the first word are occurances of
+                # the whole sentence. If so, add it to the new posting
+                for position in fst_word_occurances:
+                    match = True
+                    for i in range(0, len(sentence)):
+                        match = match and (sentence[i] == doc[position+i])
+                    if match:
+                        new_posting.positions.append(position)
+                # If the new posting has occurances of the sentence, add it
+                # to the expansion
+                if len(new_posting.positions) > 0:
+                    expansion[new_term].append(new_posting)
 
-                if min_fst_doc == max_fst_doc:
-                    # Create a new Posting for the document
-                    new_posting = Posting(min_fst_doc)
-                    # Get the document in lowercase
-                    doc = word_tokenize(str(self.docs[min_fst_doc]).lower())
-
-                    # Find all the occurances of the sentence's first word on the document
-                    fst_word_occurances = list()
-                    for posting in inv_idx[sentence[0]]:
-                        if posting.doc_id == min_fst_doc:
-                            fst_word_occurances.extend(posting.positions)
-                            break
-                    # Check if the occurances of the first word are occurances of
-                    # the whose sentence. If so, add it to the new posting
-                    for position in fst_word_occurances:
-                        match = True
-                        for i in range(0, len(sentence)):
-                            match = match and (sentence[i] == doc[position+i])
-                        if match:
-                            new_posting.positions.append(position)
-                    # If the new posting has occurances of the sentence, add it
-                    # to the expansion
-                    if len(new_posting.positions) > 0:
-                        expansion[new_term].append(new_posting)
-                    # Advances to the next document
-                    for term_line in term_lines:
-                        del term_line[0]
-                else:
-                    # Remove the smallest doc_id from all term_line heads
-                    for term_line in term_lines:
-                        if term_line[0] == min_fst_doc:
-                            del term_line[0]
-        return expansion
 
     def search(self, query):
-        # TODO: busca binaria para cada trecho quoted
+        expanded_inv_idx = {}
+        filtered_documents = []
+
+        # Binary AND search for quoted sentences and NOT search for negated words
+        self.binary_search(query.quoted_sentences, query.negated_words, expanded_inv_idx, 
+            filtered_documents)
+
         # TODO: busca ranqueada do passo anterior
-        return 0
