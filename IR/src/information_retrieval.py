@@ -19,6 +19,7 @@ class IR:
         #     except IOError:
         #         break
 
+
     def _term_tfs(self, term, expanded_inv_idx, filtered_documents):
         doc_tfs = {}
         iterator = iter(filtered_documents)
@@ -94,33 +95,67 @@ class IR:
         filtered_documents.extend(answer)
 
 
+    # def _intersection(self, term_lines, filtered_term_lines=list()):
+    #     if len(term_lines) == 0:
+    #         return []
+    #     term_lines = deepcopy(term_lines)
+    #     while len(filtered_term_lines) < len(term_lines):
+    #         filtered_term_lines.append([])
+
+    #     intersection = []
+    #     while min(term_lines, key=len) != []:
+    #         head_doc_ids = [term_line[0] for term_line in term_lines]
+    #         min_head_doc = min(head_doc_ids)
+    #         max_head_doc = max(head_doc_ids)
+
+    #         if min_head_doc == max_head_doc:
+    #             for i in range(0, len(term_lines)):
+    #                 deepcopy_ = deepcopy(term_lines[i][0])
+    #                 filtered_term_lines[i].append(deepcopy_)
+    #             # Add the document to the intersection list and advances all
+    #             # term_lines to the next documents
+    #             intersection.append(int(min_head_doc))
+    #             for term_line in term_lines:
+    #                 del term_line[0]
+    #         else:
+    #             # Remove the smallest doc_id from all term_line heads
+    #             for term_line in term_lines:
+    #                 if term_line[0] == min_head_doc:
+    #                     del term_line[0]
+
+    #     return intersection
+
+
     def _intersection(self, term_lines, filtered_term_lines=list()):
         if len(term_lines) == 0:
             return []
-        term_lines = deepcopy(term_lines)
         while len(filtered_term_lines) < len(term_lines):
             filtered_term_lines.append([])
 
+        indices = [0] * len(term_lines)
         intersection = []
-        while min(term_lines, key=len) != []:
-            head_doc_ids = [term_line[0] for term_line in term_lines]
+        length_minus_index = lambda (line, idx): len(line) - idx
+        while min(map(length_minus_index, zip(term_lines, indices))) > 0:
+            head_doc_ids = [term_line[idx] for (term_line, idx) in zip(term_lines, indices)]
             min_head_doc = min(head_doc_ids)
             max_head_doc = max(head_doc_ids)
 
             if min_head_doc == max_head_doc:
                 for i in range(0, len(term_lines)):
-                    deepcopy_ = deepcopy(term_lines[i][0])
+                    idx = indices[i]
+                    deepcopy_ = deepcopy(term_lines[i][idx])
                     filtered_term_lines[i].append(deepcopy_)
                 # Add the document to the intersection list and advances all
                 # term_lines to the next documents
                 intersection.append(int(min_head_doc))
-                for term_line in term_lines:
-                    del term_line[0]
+                for i in range(0, len(indices)):
+                    indices[i] += 1
             else:
                 # Remove the smallest doc_id from all term_line heads
-                for term_line in term_lines:
-                    if term_line[0] == min_head_doc:
-                        del term_line[0]
+                for i in range(0, len(term_lines)):
+                    idx = indices[i]
+                    if term_lines[i][idx] == min_head_doc:
+                        indices[i] += 1
 
         return intersection
 
@@ -177,19 +212,29 @@ class IR:
             expansion[new_term] = list()
             # Get the doc_ids in the lines for each term in the sentence
             term_lines = [[posting for posting in inv_idx[word]] for word in sentence]
-            # term_lines = [[posting.doc_id for posting in inv_idx[word]] for word in sentence]
 
+            # Select the documents which contain all the sentence's words
             filtered_postings = []
             intersection = self._intersection(term_lines, filtered_postings)
             while len(intersection) > 0:
+                # Occurances is a list of lists (matrix), where each line i contains
+                # the occurances of the ith word of the sentence in the document
+                # intersection[0].
                 occurances = [postings_list[0].positions for postings_list in filtered_postings]
+                # Subtract from all elements in each line of occurances the line
+                # index (line 0 is ignored).
                 for i in range(1, len(occurances)):
                     occurances[i] = [(occurance-i) for occurance in occurances[i]]
+                # The positions in which there are intersections are occurances
+                # of the whole sentence in the document.
                 sentence_occurances = self._intersection(occurances)
+                # If there are occurances, create a Posting for the document in 
+                # expansion[new_term] 
                 if len(sentence_occurances) > 0:
                     new_posting = Posting(intersection[0])
                     new_posting.positions = deepcopy(sentence_occurances)
                     expansion[new_term].append(new_posting)
+                # Delete the heads of intersection and filtered_posting's lines
                 for postings_list in filtered_postings:
                     del postings_list[0]
                 del intersection[0]
@@ -210,3 +255,18 @@ class IR:
             doc = deserialize(str(doc_id)+'.dbf')
             print str(doc_number) + '. ' + doc.title
             doc_number += 1
+
+        # print '-------'
+        # for term in (query.unquoted_words + expanded_inv_idx.keys()):
+        #     print 'checking ' + term
+        #     self.check(term, expanded_inv_idx)
+        #     print '-------'
+
+
+    # def check(self, term, expanded_inv_idx={}):
+    #     dict_ = expanded_inv_idx if term in expanded_inv_idx else self.inverted_index
+    #     for posting in dict_[term]:
+    #         print 'doc #' + str(posting.doc_id) + ':'
+    #         for pos in posting.positions:
+    #             doc = deserialize(str(posting.doc_id) + '.dbf')
+    #             print str(word_tokenize(str(doc).lower())[pos:pos+5])
