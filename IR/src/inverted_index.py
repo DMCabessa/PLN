@@ -12,5 +12,8 @@ class InvertedIndex:
     def __iter__(self):
         return iter(self.table)
 
+    def __contains__(self, key):
+        return key in self.table
+
     def keys(self):
         return self.table.keys()

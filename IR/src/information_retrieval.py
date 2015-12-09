@@ -25,7 +25,7 @@ class IR:
         if filtered_documents == []:
             return doc_tfs
 
-        if term in expanded_inv_idx.keys():
+        if term in expanded_inv_idx:
             inverted_index = expanded_inv_idx
         else:
             inverted_index = self.inverted_index
@@ -50,7 +50,7 @@ class IR:
 
 
     def term_idf(self, term, expanded_inv_idx):
-        if term in expanded_inv_idx.keys():
+        if term in expanded_inv_idx:
             n_docs = len(expanded_inv_idx[term])
         else:
             n_docs = len(self.inverted_index[term])
