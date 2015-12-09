@@ -48,7 +48,8 @@ def init_inverted_index():
         tokens = nltk.word_tokenize(lower_doc)
         for pos in range(0,len(tokens)):
             tk = tokens[pos]
-            if not tk in inverted_index.keys():
+
+            if not tk in inverted_index:
                 inverted_index[tk] = list()
             
             term_data = inverted_index[tk]
@@ -62,4 +63,3 @@ def init_inverted_index():
         print "{0:.2f}% completed...".format(float(document.id)/total * 100)
 
     serialize(inverted_index,"inverted_index.idx")
-
