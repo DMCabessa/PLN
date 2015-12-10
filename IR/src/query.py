@@ -3,10 +3,10 @@ import nltk
 class Query:
 	def __init__(self,query):
 		self.unquoted_words = []
-		self.quoted_sentences = []
+		self.quoted_phrases = []
 		self.negated_words = []
 
-		subqueries = query.split('"')
+		subqueries = query.lower().split('"')
 		if len(subqueries) > 1 and not len(subqueries)%2 == 0:
 			for i in range(0,len(subqueries)):
 				if len(subqueries[i]) == 0:
@@ -14,7 +14,7 @@ class Query:
 				if i%2 == 0:
 					self.unquoted_words += nltk.word_tokenize(subqueries[i])
 				else:
-					self.quoted_sentences.append(subqueries[i])
+					self.quoted_phrases.append(subqueries[i])
 		else:
 			self.unquoted_words += nltk.word_tokenize(" ".join(subqueries))
 

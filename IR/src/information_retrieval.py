@@ -1,7 +1,7 @@
 from file_handler import deserialize, PATH
 from posting import Posting
 from query import Query
-from math import log
+from math import log, sqrt
 from copy import deepcopy
 from nltk import word_tokenize
 from inverted_index import InvertedIndex
@@ -21,31 +21,32 @@ class IR:
 
 
     def _term_tfs(self, term, expanded_inv_idx, filtered_documents):
-        doc_tfs = {}
-        iterator = iter(filtered_documents)
+        doc_tfs = dict(zip(filtered_documents, [0]*len(filtered_documents)))
         if filtered_documents == []:
             return doc_tfs
 
         if term in expanded_inv_idx:
-            inverted_index = expanded_inv_idx
+            inv_idx = expanded_inv_idx
         else:
-            inverted_index = self.inverted_index
+            inv_idx = self.inverted_index
 
-        allowed_id = iterator.next()
-        doc_tfs[allowed_id] = 0
-        for posting in inverted_index[term]:
+        # print 'filtered: ' + str(filtered_documents)
+        idx_fd = 0
+        for posting in inv_idx[term]:
+            # Ignore doc_ids smaller than posting.doc_id
+            while idx_fd < len(filtered_documents) and filtered_documents[idx_fd] < posting.doc_id:
+                idx_fd += 1
+            # Break if there are no more allowed doc_ids
+            if idx_fd >= len(filtered_documents):
+                break
+
+            # print 'index: ' + str(idx_fd) + '   docs: ' + str(filtered_documents) + '   posting: ' + str(posting)
+            allowed_id = filtered_documents[idx_fd]
             if posting.doc_id == allowed_id:
+                print '(' + term + ') id: ' + str(allowed_id) + '   count: ' + str(len(posting.positions)) + '   1+log: ' + str(1 + log(len(posting.positions)))
                 doc_tfs[allowed_id] = 1 + log(len(posting.positions))
-            elif posting.doc_id > allowed_id:
-                doc_tfs[allowed_id] = 0
-                try:
-                    allowed_id = iterator.next()
-                    doc_tfs[allowed_id] = 0
-                except StopIteration:
-                    break
-
-        for allowed_id in iterator:
-            doc_tfs[allowed_id] = 0
+            if posting.doc_id >= allowed_id:
+                idx_fd += 1
 
         return doc_tfs
 
@@ -55,7 +56,8 @@ class IR:
             n_docs = len(expanded_inv_idx[term])
         else:
             n_docs = len(self.inverted_index[term])
-        return log(self.inverted_index.n/float(n_docs))
+        # Return the log on base 10
+        return log(self.inverted_index.n/float(n_docs), 10)
 
     # TODO
     def _compute_scores(self, unquoted_words, expanded_inv_idx, filtered_documents):
@@ -65,32 +67,67 @@ class IR:
         # Compute all tfs and idfs
         for term in terms:
             tfs[term] = self._term_tfs(term, expanded_inv_idx, filtered_documents)
-            idfs[term] = _term_idf(term, expanded_inv_idx)
+            tfs[term]['query'] = tfs[term]['query'] + 1 if tfs[term].has_key('query') else 1
+            idfs[term] = self._term_idf(term, expanded_inv_idx)
+
+        print 'TFs:\n' + str(tfs)
+
         # Compute the tf-idfs
-        tf_idf = deepcopy(tfs)
-        for term in terms:
-            for doc_id in filtered_documents:
-                tf_idf[term][doc_id] *= idfs[term]
+        tf_idfs = tfs
+        for term in tfs:
+            for doc_id in tfs[term]:
+                tf_idfs[term][doc_id] *= idfs[term]
+        # Create the documents and query vectors
 
-        # TODO
+        print 'TF-IDFs:\n' + str(tf_idfs)
+
+        vectors = {}
+        for doc_id in filtered_documents + ['query']:
+            vectors[doc_id] = []    
+            for term in terms:
+                vectors[doc_id].append(tf_idfs[term][doc_id])
+        # Normalize the vectors
+        for doc_id in filtered_documents + ['query']:
+            length = sqrt(sum([x**2 for x in vectors[doc_id]]))
+            length = length if length > 0 else 1
+            vectors[doc_id] = [x/float(length) for x in vectors[doc_id]]
+            if max(vectors[doc_id]) > 0:
+                print 'id: ' + str(doc_id) + '   normalized vector: ' + str(vectors[doc_id])
+        # Compute the cosines
+        cos = {}
+        for doc_id in filtered_documents:
+            cos[doc_id] = sum([vectors[doc_id][i]*vectors['query'][i] for i in 
+                range(0, len(terms))])
+
+        print 'cos: ' + str(cos)
+
+        # Order the doc_ids decreasingly with respect to cos[doc_id]
+        ranked_documents = cos.keys()
+        list.sort(ranked_documents, key=lambda doc_id: 1 - cos[doc_id])
+        return ranked_documents
 
 
-    def _binary_search(self, quoted_sentences, negated_words, expanded_inv_idx, filtered_documents):
-        self._expand_inverted_index(quoted_sentences, expanded_inv_idx)
+    def _binary_search(self, quoted_phrases, negated_words, expanded_inv_idx, filtered_documents):
+        self._expand_inverted_index(quoted_phrases, expanded_inv_idx)
         self._binary_merge(negated_words, expanded_inv_idx, filtered_documents)
 
 
     def _binary_merge(self, negated_words, expanded_inv_idx, filtered_documents):
-        term_lines = [[posting.doc_id for posting in expanded_inv_idx[term]] 
-            for term in expanded_inv_idx.keys()]
-        negated_term_lines = [[posting.doc_id for posting in self.inverted_index[term]] 
-            for term in negated_words]
-        # Find the documents that contain all the quoted sentences
-        answer = self._intersection(term_lines)
-        # For each negated term, remove from answer the documents that contain it
-        for negated_term_line in negated_term_lines:
-            negated_intersection = self._intersection([answer] + [negated_term_line])
-            answer = filter(lambda d: d not in negated_intersection, answer)
+        if len(expanded_inv_idx) > 0:
+            term_lines = [[posting.doc_id for posting in expanded_inv_idx[term]] 
+                for term in expanded_inv_idx.keys()]
+            # Find the documents that contain all the quoted phrases
+            answer = self._intersection(term_lines)
+        else:
+            answer = range(1, self.inverted_index.n + 1)
+        
+        if len(negated_words) > 0:
+            negated_term_lines = [[posting.doc_id for posting in self.inverted_index[term]] 
+                for term in negated_words]
+            # For each negated term, remove from answer the documents that contain it
+            for negated_term_line in negated_term_lines:
+                negated_intersection = self._intersection([answer] + [negated_term_line])
+                answer = filter(lambda d: d not in negated_intersection, answer)
 
         filtered_documents.extend(answer)
 
@@ -160,19 +197,19 @@ class IR:
         return intersection
 
 
-    # Expands the inverted index table to contain the quoted sentences, each
+    # Expands the inverted index table to contain the quoted phrases, each
     # considered as a single term
-    # def _expand_inverted_index(self, quoted_sentences, expansion):
+    # def _expand_inverted_index(self, quoted_phrases, expansion):
     #     inv_idx = self.inverted_index
         
-    #     for sentence in quoted_sentences:
-    #         sentence = word_tokenize(sentence)
-    #         # Create a new term representing the sentence and add it to the expansion
-    #         new_term = "_".join(sentence)
+    #     for phrase in quoted_phrases:
+    #         phrase = word_tokenize(phrase)
+    #         # Create a new term representing the phrase and add it to the expansion
+    #         new_term = "_".join(phrase)
     #         expansion[new_term] = list()
-    #         # Get the doc_ids in the lines for each term in the sentence
-    #         term_lines = [[posting for posting in inv_idx[word]] for word in sentence]
-    #         # term_lines = [[posting.doc_id for posting in inv_idx[word]] for word in sentence]
+    #         # Get the doc_ids in the lines for each term in the phrase
+    #         term_lines = [[posting for posting in inv_idx[word]] for word in phrase]
+    #         # term_lines = [[posting.doc_id for posting in inv_idx[word]] for word in phrase]
 
     #         intersection = self._intersection(term_lines)
     #         for doc_id in intersection:
@@ -180,45 +217,45 @@ class IR:
     #             new_posting = Posting(doc_id)
     #             # Get the document in lowercase
     #             doc = word_tokenize(str(self.docs[doc_id]).lower())
-    #             # Find the occurances of the sentence's first word on the document
+    #             # Find the occurances of the phrase's first word on the document
     #             fst_word_occurances = list()
-    #             for posting in inv_idx[sentence[0]]:
+    #             for posting in inv_idx[phrase[0]]:
     #                 if posting.doc_id == doc_id:
     #                     fst_word_occurances.extend(posting.positions)
     #                     break
     #             # Check if the occurances of the first word are occurances of
-    #             # the whole sentence. If so, add it to the new posting
+    #             # the whole phrase. If so, add it to the new posting
     #             for position in fst_word_occurances:
     #                 match = True
-    #                 for i in range(0, len(sentence)):
-    #                     match = match and (sentence[i] == doc[position+i])
+    #                 for i in range(0, len(phrase)):
+    #                     match = match and (phrase[i] == doc[position+i])
     #                 if match:
     #                     new_posting.positions.append(position)
-    #             # If the new posting has occurances of the sentence, add it
+    #             # If the new posting has occurances of the phrase, add it
     #             # to the expansion
     #             if len(new_posting.positions) > 0:
     #                 expansion[new_term].append(new_posting)
 
 
-    # Expands the inverted index table to contain the quoted sentences, each
+    # Expands the inverted index table to contain the quoted phrases, each
     # considered as a single term
-    def _expand_inverted_index(self, quoted_sentences, expansion):
+    def _expand_inverted_index(self, quoted_phrases, expansion):
         inv_idx = self.inverted_index
         
-        for sentence in quoted_sentences:
-            sentence = word_tokenize(sentence)
-            # Create a new term representing the sentence and add it to the expansion
-            new_term = "_".join(sentence)
+        for phrase in quoted_phrases:
+            phrase = word_tokenize(phrase)
+            # Create a new term representing the phrase and add it to the expansion
+            new_term = "_".join(phrase)
             expansion[new_term] = list()
-            # Get the doc_ids in the lines for each term in the sentence
-            term_lines = [[posting for posting in inv_idx[word]] for word in sentence]
+            # Get the doc_ids in the lines for each term in the phrase
+            term_lines = [[posting for posting in inv_idx[word]] for word in phrase]
 
-            # Select the documents which contain all the sentence's words
+            # Select the documents which contain all the phrase's words
             filtered_postings = []
             intersection = self._intersection(term_lines, filtered_postings)
             while len(intersection) > 0:
                 # Occurances is a list of lists (matrix), where each line i contains
-                # the occurances of the ith word of the sentence in the document
+                # the occurances of the ith word of the phrase in the document
                 # intersection[0].
                 occurances = [postings_list[0].positions for postings_list in filtered_postings]
                 # Subtract from all elements in each line of occurances the line
@@ -226,13 +263,13 @@ class IR:
                 for i in range(1, len(occurances)):
                     occurances[i] = [(occurance-i) for occurance in occurances[i]]
                 # The positions in which there are intersections are occurances
-                # of the whole sentence in the document.
-                sentence_occurances = self._intersection(occurances)
+                # of the whole phrase in the document.
+                phrase_occurances = self._intersection(occurances)
                 # If there are occurances, create a Posting for the document in 
                 # expansion[new_term] 
-                if len(sentence_occurances) > 0:
+                if len(phrase_occurances) > 0:
                     new_posting = Posting(intersection[0])
-                    new_posting.positions = deepcopy(sentence_occurances)
+                    new_posting.positions = deepcopy(phrase_occurances)
                     expansion[new_term].append(new_posting)
                 # Delete the heads of intersection and filtered_posting's lines
                 for postings_list in filtered_postings:
@@ -244,17 +281,21 @@ class IR:
         expanded_inv_idx = {}
         filtered_documents = []
 
-        # Binary AND search for quoted sentences and NOT search for negated words
-        self._binary_search(query.quoted_sentences, query.negated_words, expanded_inv_idx, 
+        # Binary AND search for quoted phrases and NOT search for negated words
+        self._binary_search(query.quoted_phrases, query.negated_words, expanded_inv_idx, 
             filtered_documents)
 
         # TODO: busca ranqueada do passo anterior
+        ranked_documents = self._compute_scores(query.unquoted_words, 
+            expanded_inv_idx, filtered_documents)
 
         doc_number = 1
-        for doc_id in filtered_documents:
+        for doc_id in ranked_documents:
             doc = deserialize(str(doc_id)+'.dbf')
             print str(doc_number) + '. ' + doc.title
             doc_number += 1
+            if doc_number > 10:
+                break
 
         # print '-------'
         # for term in (query.unquoted_words + expanded_inv_idx.keys()):
