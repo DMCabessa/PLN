@@ -4,7 +4,10 @@ class InvertedIndex:
         self.n = 0
 
     def __getitem__(self, index):
-        return self.table[index]
+        if self.table.has_key(index):
+            return self.table[index]
+        else:
+            return []
 
     def __setitem__(self, key, value):
         self.table[key] = value

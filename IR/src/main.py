@@ -3,10 +3,14 @@ from information_retrieval import IR
 
 k = 10
 
-_input = raw_input("Type your query... ")
-query = Query(_input)
-ir = IR()
-documents = ir.search(query)
-print "\nResults:\n"
-for i in range(0,min(k,len(documents)))
-	print i + ". " + documents[i].title
+def main():
+	input_ = raw_input("Type your query... ")
+	query = Query(input_)
+	ir = IR()
+	documents = ir.search(query)
+	if len(documents) > 0:
+		print "\nResults:\n"
+		for i in range(0,min(k,len(documents))):
+			print str(i+1) + ". [" + str(documents[i].id) + "]" + documents[i].title
+	else:
+		print "No results found for '"+input_+"'"

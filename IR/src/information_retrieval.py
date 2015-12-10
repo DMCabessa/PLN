@@ -43,7 +43,7 @@ class IR:
             # print 'index: ' + str(idx_fd) + '   docs: ' + str(filtered_documents) + '   posting: ' + str(posting)
             allowed_id = filtered_documents[idx_fd]
             if posting.doc_id == allowed_id:
-                print '(' + term + ') id: ' + str(allowed_id) + '   count: ' + str(len(posting.positions)) + '   1+log: ' + str(1 + log(len(posting.positions)))
+                # print '(' + term + ') id: ' + str(allowed_id) + '   count: ' + str(len(posting.positions)) + '   1+log: ' + str(1 + log(len(posting.positions)))
                 doc_tfs[allowed_id] = 1 + log(len(posting.positions))
             if posting.doc_id >= allowed_id:
                 idx_fd += 1
@@ -57,7 +57,10 @@ class IR:
         else:
             n_docs = len(self.inverted_index[term])
         # Return the log on base 10
-        return log(self.inverted_index.n/float(n_docs), 10)
+        if n_docs > 0:
+            return log(self.inverted_index.n/float(n_docs), 10)
+        else:
+            return 0
 
     # TODO
     def _compute_scores(self, unquoted_words, expanded_inv_idx, filtered_documents):
@@ -70,7 +73,7 @@ class IR:
             tfs[term]['query'] = tfs[term]['query'] + 1 if tfs[term].has_key('query') else 1
             idfs[term] = self._term_idf(term, expanded_inv_idx)
 
-        print 'TFs:\n' + str(tfs)
+        # print 'TFs:\n' + str(tfs)
 
         # Compute the tf-idfs
         tf_idfs = tfs
@@ -79,7 +82,7 @@ class IR:
                 tf_idfs[term][doc_id] *= idfs[term]
         # Create the documents and query vectors
 
-        print 'TF-IDFs:\n' + str(tf_idfs)
+        # print 'TF-IDFs:\n' + str(tf_idfs)
 
         vectors = {}
         for doc_id in filtered_documents + ['query']:
@@ -89,17 +92,20 @@ class IR:
         # Normalize the vectors
         for doc_id in filtered_documents + ['query']:
             length = sqrt(sum([x**2 for x in vectors[doc_id]]))
-            length = length if length > 0 else 1
-            vectors[doc_id] = [x/float(length) for x in vectors[doc_id]]
-            if max(vectors[doc_id]) > 0:
-                print 'id: ' + str(doc_id) + '   normalized vector: ' + str(vectors[doc_id])
+            if length == 0 and doc_id != 'query':
+                filtered_documents.remove(doc_id)
+                del vectors[doc_id]
+            elif length > 0:
+                vectors[doc_id] = [x/float(length) for x in vectors[doc_id]]
+            # if max(vectors[doc_id]) > 0:
+            #     print 'id: ' + str(doc_id) + '   normalized vector: ' + str(vectors[doc_id])
         # Compute the cosines
         cos = {}
         for doc_id in filtered_documents:
             cos[doc_id] = sum([vectors[doc_id][i]*vectors['query'][i] for i in 
                 range(0, len(terms))])
 
-        print 'cos: ' + str(cos)
+        # print 'cos: ' + str(cos)
 
         # Order the doc_ids decreasingly with respect to cos[doc_id]
         ranked_documents = cos.keys()
@@ -217,21 +223,21 @@ class IR:
     #             new_posting = Posting(doc_id)
     #             # Get the document in lowercase
     #             doc = word_tokenize(str(self.docs[doc_id]).lower())
-    #             # Find the occurances of the phrase's first word on the document
-    #             fst_word_occurances = list()
+    #             # Find the occurrences of the phrase's first word on the document
+    #             fst_word_occurrences = list()
     #             for posting in inv_idx[phrase[0]]:
     #                 if posting.doc_id == doc_id:
-    #                     fst_word_occurances.extend(posting.positions)
+    #                     fst_word_occurrences.extend(posting.positions)
     #                     break
-    #             # Check if the occurances of the first word are occurances of
+    #             # Check if the occurrences of the first word are occurrences of
     #             # the whole phrase. If so, add it to the new posting
-    #             for position in fst_word_occurances:
+    #             for position in fst_word_occurrences:
     #                 match = True
     #                 for i in range(0, len(phrase)):
     #                     match = match and (phrase[i] == doc[position+i])
     #                 if match:
     #                     new_posting.positions.append(position)
-    #             # If the new posting has occurances of the phrase, add it
+    #             # If the new posting has occurrences of the phrase, add it
     #             # to the expansion
     #             if len(new_posting.positions) > 0:
     #                 expansion[new_term].append(new_posting)
@@ -254,22 +260,22 @@ class IR:
             filtered_postings = []
             intersection = self._intersection(term_lines, filtered_postings)
             while len(intersection) > 0:
-                # Occurances is a list of lists (matrix), where each line i contains
-                # the occurances of the ith word of the phrase in the document
+                # Occurrences is a list of lists (matrix), where each line i contains
+                # the occurrences of the ith word of the phrase in the document
                 # intersection[0].
-                occurances = [postings_list[0].positions for postings_list in filtered_postings]
-                # Subtract from all elements in each line of occurances the line
+                occurrences = [postings_list[0].positions for postings_list in filtered_postings]
+                # Subtract from all elements in each line of occurrences the line
                 # index (line 0 is ignored).
-                for i in range(1, len(occurances)):
-                    occurances[i] = [(occurance-i) for occurance in occurances[i]]
-                # The positions in which there are intersections are occurances
+                for i in range(1, len(occurrences)):
+                    occurrences[i] = [(occurrence-i) for occurrence in occurrences[i]]
+                # The positions in which there are intersections are occurrences
                 # of the whole phrase in the document.
-                phrase_occurances = self._intersection(occurances)
-                # If there are occurances, create a Posting for the document in 
+                phrase_occurrences = self._intersection(occurrences)
+                # If there are occurrences, create a Posting for the document in 
                 # expansion[new_term] 
-                if len(phrase_occurances) > 0:
+                if len(phrase_occurrences) > 0:
                     new_posting = Posting(intersection[0])
-                    new_posting.positions = deepcopy(phrase_occurances)
+                    new_posting.positions = deepcopy(phrase_occurrences)
                     expansion[new_term].append(new_posting)
                 # Delete the heads of intersection and filtered_posting's lines
                 for postings_list in filtered_postings:
@@ -290,12 +296,13 @@ class IR:
             expanded_inv_idx, filtered_documents)
 
         doc_number = 1
-        for doc_id in ranked_documents:
-            doc = deserialize(str(doc_id)+'.dbf')
-            print str(doc_number) + '. ' + doc.title
-            doc_number += 1
-            if doc_number > 10:
-                break
+        return [deserialize(str(doc_id)+'.dbf') for doc_id in ranked_documents]
+        # for doc_id in ranked_documents:
+        #     doc = deserialize(str(doc_id)+'.dbf')
+        #     print str(doc_number) + '. ' + doc.title
+        #     doc_number += 1
+            # if doc_number > 10:
+            #    break
 
         # print '-------'
         # for term in (query.unquoted_words + expanded_inv_idx.keys()):
