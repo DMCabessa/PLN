@@ -10,10 +10,13 @@ PATH = "../database/"
 def serialize(document, filename):
     f = open(PATH+filename, 'wb')
     cPickle.dump(document, f, cPickle.HIGHEST_PROTOCOL)
+    f.close()
 
 def deserialize(filename):
     f = open(PATH+filename, 'rb')
-    return cPickle.load(f)
+    return_ = cPickle.load(f)
+    f.close()
+    return return_
 
 def process_documents():
     # The index must be changed from 1 t 22 after testing is done
@@ -21,6 +24,7 @@ def process_documents():
         filename = "../source-documents/reut2-0" + ("0" if i < 10 else "") + str(i) + ".sgm"
         f = open(filename)
         data = f.read()
+        f.close()
         soup = BeautifulSoup(data, "html.parser")
         reuters = soup.findAll('reuters')
         for reuter in reuters:
@@ -32,7 +36,7 @@ def init_inverted_index():
     doc_list = []
     inverted_index = InvertedIndex()
 
-    while idx <= 1000:
+    while True:
         try:
             document = deserialize(str(idx)+".dbf")
             doc_list.append(document)
