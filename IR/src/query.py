@@ -6,7 +6,7 @@ class Query:
 		self.quoted_phrases = []
 		self.negated_words = []
 
-		subqueries = query.lower().split('"')
+		subqueries = query.encode('utf-8').lower().split('"')
 		if len(subqueries) > 1 and not len(subqueries)%2 == 0:
 			for i in range(0,len(subqueries)):
 				if len(subqueries[i]) == 0:
@@ -23,3 +23,7 @@ class Query:
 				if len(word) > 1:
 					self.negated_words.append(word[1:len(word)])
 				self.unquoted_words.remove(word)
+
+		for phrase in self.quoted_phrases:
+			words = nltk.word_tokenize(phrase)
+			self.unquoted_words.extend(words)

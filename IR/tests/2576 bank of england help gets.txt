@@ -1,0 +1,325 @@
+target document is rank 5
+==============================================================================
+DOC ID:
+	9880
+TITLE:
+	U.K. MONEY MARKET GETS 25 MLN STG LATE HELP
+TOPICS:
+	money-fx
+PLACES:
+	uk
+CONTENT:
+	The Bank of England said it provided
+	about 25 mln stg in late help to the money market, bringing the
+	total assistance today to 266 mln stg.
+	    This compares with the bank's revised estimate of a 350 mln
+	stg money market shortfall.
+	 REUTER
+	
+==============================================================================
+DOC ID:
+	12819
+TITLE:
+	U.K. MONEY MARKET GETS 347 MLN STG AFTERNOON HELP
+TOPICS:
+	money-fx, interest
+PLACES:
+	uk
+CONTENT:
+	The Bank of England said it has operated
+	in the money market this afternoon, buying back bills totalling
+	347 mln stg. This brings the total help so far today to 517 mln
+	stg and compares with the Bank's revised estimate of an 800 mln
+	stg shortfall.
+	    The central bank purchased in band one 20 mln stg at 9-7/8
+	pct, in band two 254 mln at 9-13/16 pct, in band three 66 mln
+	at 9-3/4 pct and in band four seven mln stg at 9-11/16 pct.
+	 REUTER
+	
+==============================================================================
+DOC ID:
+	15436
+TITLE:
+	U.K. MONEY MARKET GETS 103 MLN STG HELP
+TOPICS:
+	money-fx, interest
+PLACES:
+	uk
+CONTENT:
+	The Bank of England said it operated in
+	the money market this morning, buying 103 mln stg bank bills.
+	    The central bank bought in band one 60 mln stg at 9-7/8, in
+	band two eight mln at 9-13/16, in band three 26 mln at 9-3/4
+	and in band four nine mln stg at 9-11/16 pct.
+	    This compares with the bank's forecast of a 400 mln stg
+	shortfall today.
+	 REUTER
+	
+==============================================================================
+DOC ID:
+	11200
+TITLE:
+	U.K. MONEY MARKET GETS 1.14 BILLION STG EARLY HELP
+TOPICS:
+	money-fx, interest
+PLACES:
+	uk
+CONTENT:
+	The Bank of England said it had provided
+	the money market with 1.143 billion mln stg assistance in
+	response to an early round of bill offers from the discount
+	houses.
+	    Earlier, the Bank forecast the system would face a very
+	large deficit today of around 1.75 billion stg.
+	    The central bank purchased bank bills outright comprising
+	393 mln stg in band one at 9-7/8 pct, 649 mln stg in band two
+	at 9-13/16 pct and 85 mln stg in band three at 9-3/4 pct.
+	    In addition it bought 16 mln stg of local authority bills
+	in band two at 9-13/16 pct.
+	 REUTER
+	
+==============================================================================
+DOC ID:
+	2576
+TITLE:
+	U.K. MONEY MARKET GETS 350 MLN STG AFTERNOON HELP
+TOPICS:
+	money-fx, interest
+PLACES:
+	uk
+CONTENT:
+	The Bank of England said it provided
+	assistance worth 350 mln stg during the afternoon session which
+	takes total help so far today to 446 mln stg against a shortage
+	estimated at around 550 mln stg.
+	    The central bank purchased outright bank bills comprising
+	120 mln stg in band one at 10-7/8 pct and 227 mln stg in band
+	two at 10-13/16 pct. It also bought treasury bills worth one
+	mln stg in band one and two mln stg in band two at the same
+	rates of interest as bank bills.
+	 REUTER
+	
+==============================================================================
+DOC ID:
+	7652
+TITLE:
+	U.K. MONEY MARKET GETS 186 MLN STG AFTERNOON HELP
+TOPICS:
+	money-fx, interest
+PLACES:
+	uk
+CONTENT:
+	The Bank of England said it had given
+	the money market a further 186 mln stg assistance in the
+	afternoon session. This brings the Bank's total help so far
+	today to 945 mln stg and compares with its revised forecast of
+	a one billion stg deficit.
+	    The central bank bought bank bills outright comprising 51
+	mln stg in band one at 9-7/8 pct and 135 mln stg in band two at
+	9-13/16 pct.
+	 REUTER
+	
+==============================================================================
+DOC ID:
+	3067
+TITLE:
+	U.K. MONEY MARKET GIVEN LATE HELP WORTH 15 MLN STG
+TOPICS:
+	money-fx
+PLACES:
+	uk
+CONTENT:
+	The Bank of England said it provided the
+	market with unspecified late assistance worth 15 mln stg.
+	    It has given the market total assistance of 228 mln stg
+	today compared with a liquidity shortage it estimated at a
+	revised 300 mln stg.
+	 REUTER
+	
+==============================================================================
+DOC ID:
+	4088
+TITLE:
+	BANK OF ENGLAND OFFERS EARLY HELP IN MONEY MARKET
+TOPICS:
+	money-fx
+PLACES:
+	uk
+CONTENT:
+	The Bank of England said it had invited
+	the discount houses to make an early round of bill offers to
+	help offset a large liquidity shortage in the money market.
+	    It estimated the shortage at around 1.55 billion stg, one
+	adverse factor being the unwinding of a sale and repurchase
+	agreement, with the market having to buy back bills worth 542
+	mln stg from the Bank.
+	    Bills maturing in official hands and the treasury bill
+	take-up would drain 957 mln stg wile exchequer transactions and
+	a note circulation rise would take out 15 mln and 25 mln
+	respectively. Above target bankers' balances would add 10 mln.
+	 REUTER
+	
+==============================================================================
+DOC ID:
+	4666
+TITLE:
+	BANK OF ENGLAND OFFERS EARLY HELP TO MONEY MARKET
+TOPICS:
+	money-fx
+PLACES:
+	uk
+CONTENT:
+	The Bank of England said it invited an
+	early round of bill offers to help ease tight conditions in the
+	money market.
+	    The bank estimated today's liquidity shortage at about 1.10
+	billion stg.
+	    Bills maturing in official hands and the treasury bill
+	take-up would drain 1.21 billion stg from the system while a
+	rise in the note circulation and below target bankers' balances
+	would take out 265 mln and 180 mln respectively, the bank said.
+	    Against this, exchequer transactions would add a net 535
+	mln stg.
+	 REUTER
+	
+==============================================================================
+DOC ID:
+	3612
+TITLE:
+	U.K. MONEY MARKET GIVEN LATE HELP OF 240 MLN STG
+TOPICS:
+	money-fx
+PLACES:
+	uk
+CONTENT:
+	The Bank of England said it provided the
+	money market with unspecified late assistance of around 240 mln
+	stg.
+	    This brings its total assistance on the day to 346 mln stg
+	compared with a liquidity shortfall it estimated at a revised
+	250 mln stg.
+	    Overnight interbank sterling was being offered at eight pct
+	shortly after the Bank's announcement.
+	 REUTER
+	
+==============================================================================
+DOC ID:
+	17523
+TITLE:
+	U.K. MONEY MARKET GIVEN 25 MLN STG LATE ASSISTANCE
+TOPICS:
+	money-fx
+PLACES:
+	uk
+CONTENT:
+	The Bank of England said it provided the
+	money market with late assistance of around 25 mln stg.
+	    This takes the Bank's total help today to some 137 mln stg
+	and compares with its latest forecast of a 150 mln stg
+	shortage.
+	 REUTER
+	
+==============================================================================
+DOC ID:
+	7100
+TITLE:
+	U.K. MONEY MARKET GIVEN 40 MLN STG LATE ASSISTANCE
+TOPICS:
+	money-fx
+PLACES:
+	uk
+CONTENT:
+	The bank of England said it provided the
+	money market with late assistance of around 40 mln stg. This
+	brings the Bank's total help today to some 412 mln stg and
+	compares with its forecast of a shortage in the sytem of around
+	400 mln stg.
+	 REUTER
+	
+==============================================================================
+DOC ID:
+	12523
+TITLE:
+	U.K. MONEY MARKET GIVEN 40 MLN STG LATE HELP
+TOPICS:
+	money-fx
+PLACES:
+	uk
+CONTENT:
+	The Bank of England said it had provided
+	the money market with around 40 mln stg late assistance. This
+	takes the Bank's total help today to some 537 mln stg and
+	compares with its estimate of a 700 mln stg shortage.
+	 REUTER
+	
+==============================================================================
+DOC ID:
+	10422
+TITLE:
+	COMMERCIAL UNION GETS MEDIUM-TERM NOTE PROGRAM
+TOPICS:
+	
+PLACES:
+	uk
+CONTENT:
+	Commercial Union Assurance <CUAC.L>, a
+	composite insurance company in the U.K., Said it is arranging a
+	financing facility totalling 750 mln European Currency Units
+	(ECUs) which will now include a medium term note program.
+	    Barry Cameron-Smail, Commercial Union's treasurer, said the
+	new financing will not increase its debt outstanding but rather
+	act as an umbrella for all its financing needs.
+	     Commercial Union has had a Euro-commercial paper program
+	since the autumn of 1985 and a guilder commercial paper program
+	since January 1986.
+	    Cameron-Smail said Commercial Union decided on having the
+	financing denominated in ECUs because it is more stable than
+	most major currencies, and because it would give greater
+	flexibility in its financings as it expands operations abroad.
+	    Although banks are anxious to develop a market for medium
+	term notes, only a few companies such as Electrolux AB and
+	Pepsico Inc have gone so far as to arrange one. Commercial
+	Union is the first U.K. Company to set up such a program.
+	    Cameron-Smail said the company seeks to help the
+	development of such a market as it would provide a new funding
+	base for its medium term assets.
+	     Cameron-Smail said that aside from traditional lines of
+	business, Commercial Union would like to move into other areas
+	where it may not be able to fund the assets itself. "This (the
+	medium term note program) will be the platform for developing
+	those assets," he said.
+	    He said Commercial Union will work closely with dealers for
+	the note program to find the right pricing level to satisfy
+	investor demands. The program will be investor driven, he
+	noted, adding that the company wants the notes placed with end
+	investors and not traded in the secondary market.
+	    Commercial Union will be able to issue medium term notes in
+	U.S. Dollars or sterling, with the dollar notes listed in
+	Luxembourg, while the sterling notes will be listed in London.
+	    Bankers expect that the maturities will be concentrated in
+	the one to five year area.
+	    The dealers for the program are Barclays de Zoete Wedd,
+	Credit Suisse First Boston Ltd, Goldman Sachs International,
+	Swiss Bank Corporation International Ltd and S.G. Warburg and
+	Co Ltd.
+	 REUTER
+	
+==============================================================================
+DOC ID:
+	1457
+TITLE:
+	U.K. MONEY MARKET GIVEN 85 MLN STG LATE HELP
+TOPICS:
+	money-fx
+PLACES:
+	uk
+CONTENT:
+	The Bank of England said it had provided
+	the money market with late assistance of around 85 mln stg.
+	    This brings the bank total help so far today to some 87 mln
+	stg and compares with its latest forecast of a 250 mln stg
+	shortage in the system today.
+	 REUTER
+	
+
+

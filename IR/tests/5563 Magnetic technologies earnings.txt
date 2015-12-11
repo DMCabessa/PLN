@@ -1,0 +1,449 @@
+target document is rank 1
+==============================================================================
+DOC ID:
+	5563
+TITLE:
+	MAGNETIC TECHNOLOGIES <MTCC> SEES IMPROVEMENT
+TOPICS:
+	earn
+PLACES:
+	usa
+CONTENT:
+	Magnetic Technologies Corp said
+	it expects the second half to show continued growth in earnings
+	and sales.
+	    The company today reported a profit for the first half
+	ended January 31 of 105,013 dlrs, compared with a year-earlier
+	loss of 745,641 dlrs, on sales of 3,661,565 dlrs, up from
+	2,810,132 dlrs.  In all of last year, Magnetic earned 996,000
+	dlrs after a loss from discontinued operations of 359,000 dlrs,
+	on sales of 6,084,000 dlrs.
+	 Reuter
+	
+==============================================================================
+DOC ID:
+	1041
+TITLE:
+	KODAK <EK> HAS NEW DATA STORAGE, USAGE SYSTEMS
+TOPICS:
+	
+PLACES:
+	usa
+CONTENT:
+	Eastman Kodak Co said it is introducing
+	four information technology systems that will be led by today's
+	highest-capacity system for data storage and retrieval.
+	    The company said information management products will be
+	the focus of a multi-mln dlr business-to-business
+	communications campaign under the threme "The New Vision of
+	Kodak."
+	    Noting that it is well-known as a photographic company,
+	Kodak said its information technology sales exceeded four
+	billion dlrs in 1986. "If the Kodak divisions generating those
+	sales were independent, that company would rank among the top
+	100 of the Fortune 500," it pointed out.
+	    The objective of Kodak's "new vision" communications
+	campaign, it added, is to inform others of the company's
+	commitment to the business and industrial sector.
+	    Kodak said the campaign will focus in part on the
+	information management systems unveilded today --
+	    -- The Kodak optical disk system 6800 which can store more
+	than a terabyte of information (a tillion bytes).
+	    - The Kodak KIMS system 5000, a networked information
+	management system using optical disks or microfilm or both.
+	    -- The Kodak KIMS system 3000, an optical-disk-based system
+	that allows users to integrate optical disks into their current
+	information management systems.
+	    -- The Kodak KIMS system 4500, a microfilm-based,
+	computer-assisted system which can be a starter system.
+	    Kodak said the optical disy system 6800 is a
+	write-once/ready-many-times type its Mass Memory Division will
+	market on a limited basis later this year and in quantity in
+	1988.
+	    Each system 6800 automated disk library can accommodate up
+	to 150, 14-inch optical disks. Each disk provides 6.8 gigabytes
+	of randomly accessible on-line storage. Thus, Kodak pointed
+	out, 150 disks render the more-than-a-terabyte capacity.
+	    Kodak said it will begin deliveries of the KIMS system 5000
+	in mid-1987. The open-ended and media-independent system 
+	allows users to incorporate existing and emerging technologies,
+	including erasable optical disks, high-density magnetic media,
+	fiber optics and even artificial intelligence, is expected to
+	sell in the 700,000 dlr range.
+	    Initially this system will come in a 12-inch optical disk
+	version which provides data storage and retrieval through a
+	disk library with a capacity of up to 121 disks, each storing
+	2.6 gigabytes.
+	    Kodak said the KIMS system 3000 is the baseline member of
+	the family of KIMS systems. Using one or two 12-inch manually
+	loaded optical disk drives, it will sell for about 150,000 dlrs
+	with deliveries beginning in mid-year.
+	    The company said the system 3000 is fulling compatibal with
+	the more powerful KIMS system 5000.
+	    It said the KIMS system 4500 uses the same hardware and
+	software as the system 5000. It will be available in mid-1987
+	and sell in the 150,000 dlr range.
+	 Reuter
+	
+==============================================================================
+DOC ID:
+	5555
+TITLE:
+	MAGNETIC TECHNOLOGIES CORP <MTCC> 1ST HALF NET
+TOPICS:
+	earn
+PLACES:
+	usa
+CONTENT:
+	Jan 31 end
+	    Shr not given
+	    Net profit 105,013 vs loss 745,641
+	    Sales 3,661,565 vs 2,810,132
+	 Reuter
+	
+==============================================================================
+DOC ID:
+	3093
+TITLE:
+	CONTROL DATA <CDA> TO BUY PERIPHERALS STAKE
+TOPICS:
+	acq
+PLACES:
+	usa
+CONTENT:
+	Control Data Corp said it
+	agreed to acquire Unisys Inc's <UIS> 13 pct stake in <Magnetic
+	Peripherals Inc>.
+	    The letter of intent provides that Unisys converts from an
+	owner in Magnetic Peripherals to a customer of Control Data's
+	data storage products group over a two year period.
+	    Under the agreement, Control Data will continue to furnish
+	disk drives to Unisys, it said.
+	    No other details of the proposed agreement were available.
+	    Magnetic Controls, managed by the data storage products
+	group of Control Data, was founded in 1975 as a joint venture
+	to maintain a technological base in data storage, and supply
+	peripheral equipment for the computer systems of its owners.
+	    The venture has become a developer and manufacturer of high
+	performance, high-capacity data storage products sold by
+	Control Data to computer systems manafacturers worldwide, it
+	said.
+	    After conversion of the Unisys interest, Control Data will
+	own 80 pct, Honeywell Inc <HON>, 14 pct and Bull S.A. of
+	France, six pct, it said.
+	 Reuter
+	
+==============================================================================
+DOC ID:
+	155
+TITLE:
+	VARIAN <VAR>, SIEMENS FORM JOINT VENTURE
+TOPICS:
+	
+PLACES:
+	usa
+CONTENT:
+	Varian Associates Inc and
+	<Siemens A.G.> said they signed a letter of intent to form and
+	jointly operate a nuclear magnetic resonance imaging
+	spectroscopy business in Fremont, Calif.
+	    The systems are smaller than magnetic resonance imaging
+	equipment currently used in clinical examinations, the
+	companies said.
+	    They also said the products resulting from the venture are
+	intended for use in small animal research, certain limited
+	medical research and materials testing.
+	 Reuter
+	
+==============================================================================
+DOC ID:
+	11310
+TITLE:
+	ALLIED-SIGNAL <ALD> TO SHARE METALS TECHNOLOGY
+TOPICS:
+	
+PLACES:
+	usa
+CONTENT:
+	Allied-Signal Inc's Metglas
+	Products said it and <Vacuumschmelze GmbH> signed a licensing
+	agreement whereby each may practice the other's technology for
+	amorphous metals in magnetic applications.
+	    Amorphous metal products are used in such devices as
+	switch-mode power supplies and other electronic components.
+	They are based on a proprietary rapid solidification process
+	that gives metals a glasslike molecular structure, making them
+	stronger, more ductile and corrosion-resistant, with unusual
+	magnetic charateristics.
+	 Reuter
+	
+==============================================================================
+DOC ID:
+	12203
+TITLE:
+	WALL STREET STOCKS/POLAROID <PRD>
+TOPICS:
+	acq
+PLACES:
+	usa
+CONTENT:
+	Rumors that New York investor Asher
+	Edelman has acquired a stake in Polaroid Corp and optimism
+	about tomorrow's status hearing on the patent infringement suit
+	pending with Eastman Kodak Co <EK> sent Polaroid's stock
+	higher, traders said.
+	    Polaroid rose 1-1/8 to 74-1/2.
+	    "Speculation that Edelman was going to take a stake in
+	Polaroid was kicking around a few months ago, and resurfaced
+	today," one trader said.
+	    Edelman had no comment on the rumors.
+	    A spokesman for Polaroid said the company had not been
+	contacted by Edelman and no filing had been made with the
+	Securities and Exchange Commission about a stake in the
+	company.
+	    "There is some hope among investors that there will some
+	progress in the status hearing tomorrow on the patent
+	infringement suit with Kodak," analyst Michael Ellmann of
+	Wertheim and Co said.
+	    Traders said it is conceivable that a trial date could be
+	set or some progress made on an out-of-court settlement.
+	    The suit, filed by Polaroid in April 1976, charges that
+	Kodak infringed upon Polaroid's instant camera patent. In
+	October 1985, the court barred Kodak from selling cameras or
+	film that infringe upon the patent, the Polaroid spokesman
+	said.
+	    Ellmann said he feels it is highly unlikely that any
+	progress will be made in tomorrow's hearing.
+	    Ellmann said the stock may have also gotten a boost today
+	from some optimism concerning new products the company is
+	currently working on.
+	    "Polaroid's announcement that a particularly senior company
+	executive had been chosen to work on a major unidentified new
+	product spurred some speculation about their products," he
+	said. "I am speculating that the new product could be an
+	electronic still camera," referring to a camera that records
+	its images on magnetic disks as opposed to conventional film.
+	    Ellmann said the stock may have also gotten a boost today
+	from some optimism concerning new products the company is
+	currently working on.
+	    "Polaroid's announcement that a particularly senior company
+	executive had been chosen to work on a major unidentified new
+	product spurred some speculation about their products," he
+	said. "I am speculating that the new product could be an
+	electronic still camera," referring to a camera that records
+	its images on magnetic disks as opposed to conventional film.
+	 Reuter
+	
+==============================================================================
+DOC ID:
+	8261
+TITLE:
+	KING INSTRUMENT RECEIVES SETTLEMENT FROM SUIT
+TOPICS:
+	
+PLACES:
+	usa
+CONTENT:
+	<King Instrument Corp> said it
+	received 8.5 mln dlrs from <Otari Electric Co> of Tokyo and its
+	California subsidiaries as a settlement for a patent
+	infringement suit.
+	    King said the suit, filed in 1980, covered a tape loading
+	system for cassettes. King said as part of the settlement,
+	Otari must pay a royalty to King on future sales of magnetic
+	tape winding equipment in the U.S.
+	    In a separate agreement, King said Otari has acquire from
+	it a non-exclusive license to King's basic patent in the U.S.
+	 Reuter
+	
+==============================================================================
+DOC ID:
+	4435
+TITLE:
+	DIASONIWS <DNC> SAYS IMAGING SYSTEM APPROVED
+TOPICS:
+	
+PLACES:
+	usa
+CONTENT:
+	Diasonics Inc said the U.S.
+	Food and Drug Administration has given premarket approval to
+	<Instrumentarium Corp> of Finland's ULF magnetic resonance
+	imaging system.
+	    Diasonics already distributes the system in several
+	countries and will distribute it in the U.S. as well.
+	 Reuter
+	
+==============================================================================
+DOC ID:
+	8601
+TITLE:
+	SUPERCONDUCTOR RESEARCH MAY BOOST TOKYO STOCKS
+TOPICS:
+	
+PLACES:
+	japan
+CONTENT:
+	Research into materials that conduct
+	electricity with minimal resistance could lead to further gains
+	on Tokyo's booming stock market, brokers said.
+	    They said the share prices of companies likely to benefit
+	from the so-called 'superconductors' rose sharply last week
+	after publication of articles about the research in the
+	economic daily Nihon Keizai Shimbun. The companies were in the
+	non-ferrous metal, electrical and mining sectors.
+	    But industry analysts said development problems remain and
+	commercial application is still some years away.
+	    "The area clearly has significant applications but it won't
+	be commercially viable for a few years," said Thomas Murtha,
+	technology analyst with James Capel and Co.
+	    Industry analysts said the use of superconductors could
+	bring sharp cuts in electricity costs if present problems can
+	be overcome.
+	    Nikko Securities Co Ltd analyst Shinichi Nakayama said
+	superconductors could have applications in computer circuitry,
+	electricity generation and storage, and scientific research.
+	    The superconductors are made of a blend of metals fused in
+	a heat-firing process similar to that used in ceramics.
+	    Nakayama said Kawasaki Steel Corp <KAWS.T> predicted in an
+	in-house study that by 1990 the worldwide market would be worth
+	150 billion yen for superconductors used in computers, 50
+	billion for those used in electricity generators and 150
+	billion for those used in electricity storage.
+	    The study said that by 1995 there would be trains capable
+	of 500 km an hour, hovering on a magnetic field and powered
+	mainly by superconductors. One hundred billion yen worth of
+	superconducting material would be needed for such a train.
+	    The Kawasaki study also said superconductors would be used
+	in nuclear fusion physics, but not until the year 2000.
+	    Industry analysts said superconductors have no commercial
+	applications at present. In laboratory tests the conductor must
+	be cooled by expensive liquid helium or hydrogen before minimum
+	electrical resistance is achieved, though liquid nitrogen,
+	which is much less expensive, has recently also been used
+	successfully, they said.
+	    Despite this, investors on Tokyo's stock market have
+	boosted shares of firms related to superconducting materials.
+	    From the close of trading on March 17 until yesterday's
+	close, Mitsubishi Mining and Cement Co Ltd's <MIMI.T> share
+	price rose 140 yen to 485 yen.
+	    In the same period Mitsubishi Metal Corp <MITM.T>, rose 95
+	to 745 yen, Sumitomo Metal Mining Co Ltd <TOMM.T> rose 200 to
+	1440 yen, and Kawasaki Steel rose 15 to 260.
+	    Furukawa Electric Co Ltd shares <URUT.T> jumped 104 yen to
+	689 yen, and Fuji Electric Co Ltd <FUJE.T> rose 141 to 619.
+	    Brokers said shares of suppliers of scientific instruments
+	needed to conduct the superconductor research also rose.
+	    Industry analysts said the most favoured superconductor,
+	made from a blend of yttrium, barium and copper, is currently
+	undergoing laboratory tests under a scheme coordinated by the
+	Ministry of International Trade and Industry (MITI).
+	 REUTER
+	
+==============================================================================
+DOC ID:
+	21166
+TITLE:
+	IRWIN MAGNETIC SYSTEMS INC <IRWN> 1ST QTR NET
+TOPICS:
+	earn
+PLACES:
+	usa
+CONTENT:
+	Period ended Sept 27
+	    Shr nine cts vs 24 cts
+	    Net 474,000 vs 880,000
+	    Sales 11.2 mln vs 11.8 mln
+	    Avg shrs 5,369,555 vs 3,654,986
+	    Note: 1986 figures include tax credits of 113,000 dlrs or
+	three cts a share.
+	 Reuter
+	
+==============================================================================
+DOC ID:
+	9001
+TITLE:
+	ADVANCED MAGNETICS <ADMG> IN AGREEMENT
+TOPICS:
+	
+PLACES:
+	usa
+CONTENT:
+	Advanced Magnetics Inc said it
+	reached a four mln dlrs research and development agreement with
+	ML TEchnolgy Ventures LP, a limited partnership sponsored by
+	Merrill LYnch Capital Markets.
+	    Under the agreement, Advanced Magnetics will develop and
+	conducts clinical trials of its contrast agents for magnetic
+	resonance imaging.
+	    The agreement includes a warrant permitting MLTV to buy up
+	to 380,000 shares of Advanced Magnetics common stock through
+	February 1994 at 10.50 dlrs per sahre.
+	 Reuter
+	
+==============================================================================
+DOC ID:
+	11182
+TITLE:
+	FUJI FILM <FUJI.T> TO SET UP WEST GERMAN UNIT
+TOPICS:
+	
+PLACES:
+	japan, west-germany
+CONTENT:
+	Fuji Photo Film Co Ltd will set up a
+	wholly-owned subsidiary in Kleve, West Germany, to produce
+	video cassette tapes, a spokesman said.
+	    The company, <Fuji Magnetics GmbH>, will be capitalised at
+	25 mln marks and produce two mln tapes a month for the European
+	market from early 1988, he said.
+	    Total investment will be about 100 mln marks and the plant
+	will create 200 jobs, including about 190 for local workers.
+	    Fuji Photo plans to make the Kleve plant its European
+	production centre for magnetic products, and may make audio
+	cassette tapes and floppy discs later, the spokesman said.
+	 REUTER
+	
+==============================================================================
+DOC ID:
+	7109
+TITLE:
+	MEDIQ <MED> IN AMERICAN MEDICAL <AMI> UNIT BUY
+TOPICS:
+	acq
+PLACES:
+	usa
+CONTENT:
+	MEDIQ Inc said its MEDIQ
+	Diagnostic Imaging Partners - I LP has signed a letter of
+	intent to acquire substantially all the assets of American
+	Medical International Inc's AMI Diagnostic Services Inc
+	subsidiary for undisclosed terms.
+	    The company said AMI Diagnostic operates seven magnetic
+	resonance and mutli-modality diagnostic imaging centers. MEDIQ
+	Diagnostic is a limited partnership of which MEDIQ is general
+	partner.
+	 Reuter
+	
+==============================================================================
+DOC ID:
+	21007
+TITLE:
+	BROWN DISC TO BUY RHONE-POULENC <RHON.PA> UNIT
+TOPICS:
+	acq
+PLACES:
+	usa, france
+CONTENT:
+	Brown Disc Products Co
+	Inc, a unit fo Genevar Enterprises Inc, said it has purchased
+	the ongoing business, trademarks and certain assets of
+	Rhone-Poulenc's Brown Disc Manufacturing unit, for undisclosed
+	terms.
+	    Rhone-Poulenc is a French-based chemical company.
+	    Under the agreement, Rhone-Poulenc will supply magnetic
+	tape and media products to Brown Disc Products.
+	 Reuter
+	
+
+
