@@ -89,6 +89,8 @@ class IR:
             vectors[doc_id] = []    
             for term in terms:
                 vectors[doc_id].append(tf_idfs[term][doc_id])
+        # Copy vector
+        vectors2 = deepcopy(vectors)
         # Normalize the vectors
         for doc_id in filtered_documents + ['query']:
             length = sqrt(sum([x**2 for x in vectors[doc_id]]))
@@ -109,7 +111,10 @@ class IR:
 
         # Order the doc_ids decreasingly with respect to cos[doc_id]
         ranked_documents = cos.keys()
-        list.sort(ranked_documents, key=lambda doc_id: 1 - cos[doc_id])
+        # for rd in ranked_documents:
+        #     print str(rd) +","+str(cos[rd])+","+str(sqrt(sum([x**2 for x in vectors2[rd]])))
+        list.sort(ranked_documents, key=lambda doc_id: sqrt(sum([x**2 for x in vectors2[doc_id]])), reverse=True)
+        list.sort(ranked_documents, key=lambda doc_id: cos[doc_id], reverse=True)
         return ranked_documents
 
 
